@@ -1,0 +1,42 @@
+{
+  "name": "pictoral.ly",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Koosmann/Cats",
+  "authors": [
+    "koosmann <koosmann@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-resource": "1.2.7",
+    "angular-route": "1.2.7",
+    "angular": "1.2.7",
+    "jquery": "2.0.3",
+    "angular-cookies": "1.2.7",
+    "underscore": "1.5.2",
+    "modernizr": "2.6.2",
+    "angular-bootstrap": "0.7.0",
+    "angular-sanitize": "1.2.7",
+    "angular-animate": "1.2.7",
+    "font-awesome": "~3.2.1",
+    "bootstrap": "~3.0.0",
+    "angular-ui": "~0.4.0",
+    "angular-ui-bootstrap": "~0.7.0",
+    "socket.io": "~0.9.15",
+    "angular-masonry": "~0.8.1"
+  },
+  "devDependecies": {
+    "angular-mocks": "1.0.8",
+    "angular-scenario": "1.0.8"
+  },
+  "resolutions": {
+    "angular": "1.2.7"
+  }
+}

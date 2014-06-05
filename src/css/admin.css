@@ -1,0 +1,19 @@
+body {
+	margin: 25px;
+}
+
+/*
+ * Loading
+ */
+
+.wait {
+    cursor: wait !important;
+}
+
+.success {
+    color: #7FCF3F;
+}
+
+.info {
+	color: #3578CE;
+}
