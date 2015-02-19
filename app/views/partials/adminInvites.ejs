@@ -1,0 +1,75 @@
+<h1>Invite Requests</h1>
+<p>Your resource for all invite request admin.</p>
+
+<br />
+<h3><span class=''>{{ invites.length|number }} invites requested.</span></h3>
+<h3><span class='info'>{{ sentInvitesPercent|number:2 }}%</span> are sent.</h3>
+<h3><span class='success'>{{ registeredInvitesPercentage|number }}%</span> are registered.</h3>
+<br /><br />
+
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Email</th>
+            <th>Date</th>
+            <th>Registered</th>
+            <th>Send Invite</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="invite in invites">
+            <td>{{ $index + 1 }}</td>
+            <td>{{ invite.emailAddress }}</td>
+            <td>{{ invite.dateAdded|date }}</td>
+            <td><i ng-if='invite.registered' class='fa fa-check success'></i></td>
+            <td><a ng-href='' ng-click='openInviteModal(invite)' ng-disabled='invite.sentInvites|lengthToBoolean' class="btn btn-primary" data-toggle="modal">{{ invite.sentInvites.length && 'Invite Sent' || 'Send Invite' }}</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<h5>Not {{ currentUser.firstName }}? <a href='' ng-click='logout()'>Logout</a></h5>
+<h6><a href p-external-href='/'>Cats</a></h6>
+
+<!-- Modals -->
+
+<!-- Edit Feed Modal -->
+<div id="sendInvite" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editFeed" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class='modal-title'>Send Invite</h3>
+            </div>
+            
+            <form name='sendInvite' ng-submit='sendInviteEmail(invite)' role="form" class="form-horizontal">
+
+                <div class="modal-body">
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="image">Send invite to:</label>
+                        <div class="col-sm-8">
+                            <h4>{{ invite.emailAddress }}</h4>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="description">Add a message:</label>
+                        <div class="col-sm-8">
+                            <textarea name='message' rows="3" id="description" class="form-control" placeholder="Add message here..." ng-model='invite.message'></textarea>
+                        </div>
+                    </div>
+
+                    
+
+                </div>
+
+                <div class="modal-footer">
+                  <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+                  <button type="submit" class="btn btn-primary" ui-validate-form-requirements>Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,194 @@
+<h1>Categories</h1>
+<p>Your resource for all feed categories.</p>
+
+<ul class='list-inline'>
+    <li>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            {{ category.title || "Choose Category" }} <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="" ng-click="openAddCategoryModal()" data-toggle="modal">Add new category...</a></li>
+            <li class="divider"></li>
+            <li ng-repeat='category in categories' ng-click='selectCategory(category)'><a href="#">{{ category.title }}</a></li>
+          </ul>
+        </div>
+    </li>
+    <li ng-if='category'>
+        <div class="btn-group">
+            <button type="button" ng-click="openEditCategoryModal()" class="btn btn-default">
+                Edit Category
+            </button>
+        </div>
+    </li>
+    <li ng-if='category'>
+        Public: <b>{{ category.public && 'Yes' || 'No' }}</b>
+    </li>
+    <li ng-if='category'>
+        Featured: <b>{{ category.featured && 'Yes' || 'No' }}</b>
+    </li>
+</ul>
+
+<div ng-if='category'>
+    <table ng-if='category' class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>{{ category.title + " Rank" }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="feed in feedsInCategory">
+                <td>{{ $index + 1 }}</td>
+                <td>{{ feed.title }}</td>
+                <td>
+                    <!-- Category rank goes here... -->
+                    <div class="col-sm-8">
+                        <label class="radio-inline">
+                            <input ng-model="feed.rank" value="1" type="radio" name="{{ 'rank' + feed.id }}" required ng-disabled='savingFeed' ng-class="{'wait': savingFeed}" ng-change="saveFeed(feed)">
+                            1&nbsp;
+                        </label>
+                        
+                        <label class="radio-inline">
+                            <input ng-model="feed.rank" value="2" type="radio" name="{{ 'rank' + feed.id }}" required ng-disabled='savingFeed' ng-class="{'wait': savingFeed}" ng-change="saveFeed(feed)">
+                            2&nbsp;
+                        </label>
+
+                        <label class="radio-inline">
+                            <input ng-model="feed.rank" value="3" type="radio" name="{{ 'rank' + feed.id }}" required ng-disabled='savingFeed' ng-class="{'wait': savingFeed}" ng-change="saveFeed(feed)">
+                            3&nbsp;
+                        </label>
+
+                        <label class="radio-inline">
+                            <input ng-model="feed.rank" value="4" type="radio" name="{{ 'rank' + feed.id }}" required ng-disabled='savingFeed' ng-class="{'wait': savingFeed}" ng-change="saveFeed(feed)">
+                            4&nbsp;
+                        </label>
+
+                        <label class="radio-inline">
+                            <input ng-model="feed.rank" value="5" type="radio" name="{{ 'rank' + feed.id }}" required ng-disabled='savingFeed' ng-class="{'wait': savingFeed}" ng-change="saveFeed(feed)">
+                            5&nbsp;
+                        </label>
+                    </div>                    
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <form name='addFeedForm' class="form-inline" ng-submit='addFeedToCategory($parent.$parent.newFeed)' role="form" novalidate autocomplete="off">
+                        <div class="form-group">
+                            <input name='title' class="form-control" type="text" id="title" placeholder="Title" ng-model='$parent.$parent.newFeed' typeahead="title for title in feedTitles | filter:$viewValue" typeahead-validation='true' pct-feed-id-to-title required>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value='Add Feed' pct-validate-form-requirements>
+                    </form>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br /><br />
+
+<h5>Not {{ currentUser.firstName }}? <a href='' ng-click='logout()'>Logout</a></h5>
+
+<h6><a href p-external-href='/'>Cats</a></h6>
+
+<!-- Modals -->
+<!-- Add Category Modal -->
+<div id="addCategory" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addCategory" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Add Category</h3>
+            </div>
+            <form name='addCategoryForm' class="form-horizontal" ng-submit='addNewCategory(newCategory)' role="form" novalidate autocomplete="off">
+                <div class="modal-body">
+
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label" for="title" >Title</label>
+                        <div class="col-sm-8">
+                            <input name='title' class="form-control" type="text" id="title" placeholder="Title" ng-model='newCategory.title' ng-pattern='/^[a-zA-Z0-9& ]*$/' required>
+                            <span class="help-block" ng-show="addCategoryForm.$dirty && addCategoryForm.addCategoryForm.$dirty && addCategoryForm.title.$error.required">Please enter the category title.</span>
+                            <span class="help-block error" ng-show="addCategoryForm.$dirty && addCategoryForm.title.$dirty && addCategoryForm.title.$error.pattern">Categories can only have numbers & letters.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="public" >Public</label>
+                        <div class="col-sm-8">
+                            <div class="checkbox">
+                                <input type="checkbox" ng-model='newCategory.public'>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="public" >Featured</label>
+                        <div class="col-sm-8">
+                            <div class="checkbox">
+                                <input type="checkbox" ng-model='newCategory.featured'>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+                    <button type="submit" class="btn btn-primary" pct-validate-form-requirements>Add Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+  <!-- Add Category Modal -->
+<div id="editCategory" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editCategory" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Edit Category</h3>
+            </div>
+            <form name='editCategoryForm' class="form-horizontal" ng-submit='saveCategory(editCategory)' role="form" novalidate autocomplete="off">
+                <div class="modal-body">
+
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label" for="title" >Title</label>
+                        <div class="col-sm-8">
+                            <input name='title' class="form-control" type="text" id="title" placeholder="Title" ng-model='editCategory.title' ng-pattern='/^[a-zA-Z0-9& ]*$/' required>
+                            <span class="help-block" ng-show="editCategoryForm.$dirty && editCategoryForm.title.$dirty && editCategoryForm.title.$error.required">Please enter the category title.</span>
+                            <span class="help-block error" ng-show="editCategoryForm.$dirty && editCategoryForm.title.$dirty && editCategoryForm.title.$error.pattern">Categories can only have numbers & letters.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="public" >Public</label>
+                        <div class="col-sm-8">
+                            <div class="checkbox">
+                                <input type="checkbox" ng-model='editCategory.public'>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="public" >Featured</label>
+                        <div class="col-sm-8">
+                            <div class="checkbox">
+                                <input type="checkbox" ng-model='editCategory.featured'>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+                    <button type="submit" class="btn btn-primary" pct-validate-form-requirements>Edit Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

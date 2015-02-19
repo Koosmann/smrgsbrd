@@ -1,0 +1,16 @@
+<div id='wrapper' ng-class="{'side-bar': showSidebar}">
+	<%= include header %>
+	<%= include sidebar %>
+	<div>
+		<div id='collectionsHome' pct-column-width='644'>
+			<!--<div class='centered-anchor'><a href='' id='createACollection' class='gold-circle-day'><span>CREATE A<br />COLLECTION</span></a></div>-->
+
+			<div ng-repeat='collection in collections' class='collection-box-wrapper'>
+				<h1 class='collection-date-header'>{{ collection.publishDate|date:'shortDate' }}</h1>
+				<%= include collectionComponent %>
+			</div>
+
+		</div>
+
+	</div>
+</div>

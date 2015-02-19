@@ -1,0 +1,85 @@
+<div ng-if='currentUser' id='sidebar' ng-class="{'side-bar-active': $root.showSidebar }" class='fade-out' pct-sidebar>
+	<div class='sidebar-wrapper'>
+		<div class='sidebar-opener'>
+			<a ng-init='$root.showSidebar=false' ng-click='$root.showSidebar=!$root.showSidebar;page.sidebar=!page.sidebar' href='' class='' ng-class="{ 'nav-button-sidebar-activ' : page.sidebar, 'shadow-dark-right': $root.showSidebar }" pct-nav-hover='sidebar' p-scroll-appear p-scroll-appear-range='50' p-scroll-appear-offset='100' p-scroll-appear-opacity-finish='0.97' p-scroll-appear-opacity-initial='1' pct-mx='open sidebar'></a>
+			<div ng-show='currentUser.updatedFeeds.length || noFavorites' class='recently-updated-count-wrapper fade-out'>
+				<a href='' ng-href='/favorites'>
+					<div class="recently-updated-count">{{ currentUser.updatedFeeds.length }}</div>
+					<div class="recently-updated-count-label very-small gray shadow-light-right" ng-pluralize count='currentUser.updatedFeeds.length' when="{ '0': 'UPDATED FAVORITES', 'one': 'UPDATED FAVORITE', 'other': 'UPDATED FAVORITES' }"></div>
+					<div ng-show='noFavorites && !$root.smallDevice' class='left-anchor'>
+						<div class='recently-updated-placeholder gold very-small thin'>Updated favorites will be shown here&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&rarr;</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class='current-user'>
+			<a href='' ng-href='/user/{{ currentUser.username }}' class='light'>
+				<img ng-src='{{ currentUser.avatar }}' class='left medium-avatar' />
+			</a>
+			<div class="user-name">
+				<div><a href='' ng-href='/user/{{ currentUser.username }}' class='light'>{{ currentUser.firstName + " " + currentUser.lastName }}</a></div>
+				<a href='' ng-click='logout()' class='dark thin small'>Log out</a>
+				&nbsp;&nbsp;&nbsp;<a href='' ng-href='/account' class='dark thin small' ng-class="{ 'thick' : page.account }">Account</a>
+			</div>
+		</div>
+		<ul class="sidebar-nav">
+			<li><a href='' ng-href='/feed' class='light' ng-class="{ 'gold' : page.feed }">All Feeds</a></li>
+			<li><a href='' ng-href='/favorites' class='light' ng-class="{ 'gold' : page.favorites }">My Favorites</a></li>
+			<li><a href='' ng-href='/user/{{ currentUser.username }}' class='light' ng-class="{ 'gold' : page.myProfile }">My Profile</a></li>
+		</ul>
+		<div  class='sidebar-inner-wrapper fade-out'>
+			
+			<div class="sidebar-lists">
+				<!--<div class='sidebar-list'>
+					<h5 class='gray'>MY SAVED LISTS</h5>
+					<hr />
+					<ul>
+						<li class='gray small thin' ng-hide='savedLists'>
+							No saved lists yets.
+							<br />
+							<br />
+							<span class='gold'>
+								Adding blogs to lists helps you keep<br/ >track of your different interests.
+							</span>
+						</li>
+						<li ng-repeat='list in savedLists' class="thin small"><a href='' ng-href='/list/{{ list.title }}' ng-class="{ 'dark': list.featured, 'light': !list.featured}">#{{ list.title }}</a></li>
+					</ul>
+				</div>-->
+				<div class='sidebar-list'>
+					<!--<h5 class='gray'>CATEGORIES</h5>
+					<hr />-->
+					<ul>
+						<li ng-repeat='list in lists' class=""><a href='' ng-href='/list/{{ list.title }}' class='gray'>{{ list.title }}</a><span class='dark-gray right thin small'>{{ list.feedCount }}</span></li>
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+		<div id='sidebarFooter'>
+			<!--<button ng-show='!showInviteForm' class='btn btn-block btn-yellow' ng-click='showInviteForm=true'>Send Invite (5)</button>
+			<form ng-show='showInviteForm' name='sendInvite' id='sendInvite' class='small-inline-input' ng-submit=''>
+					
+				<div class='input-group input-inline'>
+					<input id='email' name='email' type='email' ng-model='invitee.email' placeholder="Enter your friend's email" required email />
+				</div>
+
+				<button class='option-button' ng-click='showInviteForm=false'><i class='fa fa-times black'></i></button><!--
+				--><!--<button class='confirm-button' ng-submit><i class='fa fa-check'></i></button>
+				<div ng-bind='error' class='error error-inline'></div>
+			</form>-->
+			<div class='no-break info small'>
+				<!-- INSTAGRAM -->
+				<a href='http://www.instagram.com/teamsmorgasbord' class='dark' target='_blank'><i class='fa fa-instagram'></i></a>&nbsp;
+
+				<!-- TWITTER -->
+				<a href='http://www.twitter.com/teamsmorgasbord' class='dark' target='_blank'><i class='fa fa-twitter'></i></a>&nbsp;
+
+				<!-- PINTEREST -->
+				<a href='http://www.pinterest.com/teamsmorgasbord' class='dark' target='_blank'><i class='fa fa-pinterest'></i></a>
+
+				<!-- MAIL -->
+				<span class='right'><a href='mailto:hello@visitsmorgasbord.com' class='dark' target='_blank'>hello@visitsmorgasbord.com</a></span>
+			</div>
+		</div>
+	</div>
+</div>

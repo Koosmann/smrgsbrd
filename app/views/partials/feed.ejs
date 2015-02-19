@@ -1,0 +1,65 @@
+<%= include header %>
+
+<div class='container' ng-class='{invisible: !initCoverOffsetFinished}'>
+	<div class="profile-header" p-sticky-profile-header ng-style='pStickyProfileHeaderStyles'>
+		<div class="cover-image"><img ng-src='{{ feed.avatar }}' /></div>
+		<div id='test' class="profile-header-bar-container" p-init-cover-offset='-95'>
+			<div class="previous-blog" ng-show='previousFeed.id' p-href='/feed/{{ previousFeed.id }}' p-arrow-left='previousFeed.id'>
+				<img ng-src='{{ previousFeed.avatar }}' title='{{ previousFeed.title }}' /><i class='icon-angle-left icon-5x'></i>
+			</div>
+			<ul class="profile-header-bar">
+				<li class="profile-header-bar-item">
+					<span class='text-feed-title'>{{ feed.title }}</span>
+				</li>
+				<!--<h3>by {{ feed.author }}</h3>-->
+
+				<li class="profile-header-bar-item">
+					<span class='text-small text-dark' ng-pluralize count="feed.subscribers.length" when="{'0': 'No readers yet :(', 'one': '1 READER', 'other': '{{ feed.subscribers.length }} READERS'}"></span>&nbsp;&nbsp;
+					<span ng-repeat='subscriber in feed.subscribers.slice(0, 6)' p-href='/user/{{ subscriber.id }}'>
+						<img class='user-small-round' ng-src='{{ subscriber.avatar }}' title='{{ subscriber.username }}' />
+					</span>
+				</li>
+
+				<li class="profile-header-bar-item">
+					<span class='follow-icon' ng-click='addFeed(feed)' ng-show='!feed.isSubscribed'><i class='icon-ok'></i></span>
+					<span class='following-icon' ng-show='feed.isSubscribed'><i class='icon-ok'></i></span>&nbsp;
+					<span ng-show='!feed.isSubscribed'>FOLLOW</span>
+					<span ng-show='feed.isSubscribed' style='color:blue;'>FOLLOWING</span>
+
+					<div class="arrows-container" p-navigate>
+						<div class="arrow-to-top" ng-class='{ invisible:atTop }'><i class='icon-double-angle-up icon-2x'></i></div>
+						<div class="arrow-up" ng-class='{ invisible:atZero }'><i class='icon-chevron-up'></i></div>
+						<div class="arrow-down"><i class='icon-chevron-down'></i></div>
+					</div>
+				</li>
+				<!--<h2>Subscribers</h2>
+					<div class="top-feeds-container">
+						<div ng-repeat='subscriber in feed.subscribers' class='top-feed' p-href="/user/{{ subscriber.id }}">
+							<img ng-src='{{ subscriber.avatar }}' width='150' />
+							<h3>{{ subscriber.firstName }} {{ subscriber.lastName }}</h3>
+						</div>
+					</div>-->
+			</ul>
+			<div class="next-blog" ng-show='nextFeed.id' p-href='/feed/{{ nextFeed.id }}' p-arrow-right='nextFeed.id'>
+				<img ng-src='{{ nextFeed.avatar }}' title='{{ nextFeed.title }}' /><i class='icon-angle-right icon-5x'></i>
+			</div>
+
+		</div>
+		<div class='shadow-horizontal-bottom'></div>
+	</div>
+	<div class='profile-content' ng-style='pStickyProfileContentStyles' p-endless-scroll p-scroll-do='loadContent' p-scroll-threshold='200'>
+		<div class="profile-entries-container">
+			<div ng-repeat='entry in feed.entries' class='profile-entry p-scroll-to-next-item' ng-init='entry.isExpanded=false'>
+				<div class="profile-entry-content">
+					<div class="profile-entry-title">
+						<span class='text-entry-title'>{{ entry.title }}</span><br />
+						<span class='text-detail'>{{ entry.publishDate|timeAgo }}</span>
+					</div>
+					<div class="entry-cover-image" ng-show='!entry.isExpanded'><img ng-repeat='image in entry.images.slice(0, 10)' ng-show='{{ image|notTinyImage }}' ng-src='{{ image.url }}'/></div>
+					<div class='entry-content' ng-bind-html='entry.content' ng-show='entry.isExpanded'></div>
+				</div>	
+				<div class='profile-entry-expand text-small text-dark' ng-click='expandPost(feed, entry)' ng-show='!entry.isExpanded'>EXPAND POST</div>
+			</div>
+		</div>
+	</div>
+</div>

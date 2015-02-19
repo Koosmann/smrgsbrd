@@ -1,0 +1,285 @@
+<h1>Users</h1>
+<p>Your resource for all users admin.</p>
+
+<a ng-click="openAddModal()" role="button" class="btn btn-primary" data-toggle="modal">Add User</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Avatar</th>
+            <th>ID</th>
+            <th>Real Name</th>
+            <th>Username</th>
+            <th>Bio</th>
+            <th>Date Added</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="user in users">
+            <td>{{ $index + 1 }}</td>
+            <td><img ng-src='{{ user.avatar }}' width='50' class="img-thumbnail" /></td>
+            <td>{{ user.id }}</td>
+            <td>{{ user.firstName + ' ' + user.lastName }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.bio }}</td>
+            <td>{{ user.dateAdded.toString() }}</td>
+            <td><a ng-href='' ng-click='openEditModal(user)' class="btn btn-default" data-toggle="modal"><i class="icon-edit"></i></a></td>
+        </tr>
+    </tbody>
+</table>
+
+<a ng-click="openAddModal()" role="button" class="btn btn-primary" data-toggle="modal">Add User</a>
+
+<h5>Not {{ currentUser.firstName }}? <a href='' ng-click='logout()'>Logout</a></h5>
+
+<h6><a href p-external-href='/'>Cats</a></h6>
+
+<!-- Modals -->
+<!-- Add Feed Modal -->
+<div id="addUser" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addUser" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Add User</h3>
+            </div>
+            <form name='addUser' class="form-horizontal" ng-submit='addNewUser(user)' role="form" novalidate>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="username" >Username</label>
+                        <div class="col-sm-8">
+                            <input name='username' class="form-control" type="text" id="username" placeholder="Username" ng-model='user.username' validate-username ng-pattern='/^[a-zA-Z0-9_]*$/' required>
+                            <span class="help-block" ng-show="addUser.$dirty && addUser.username.$dirty && (addUser.username.$error.required || addUser.username.$invalid)">Please enter a username.</span>
+                            <span class="help-block error" ng-show="addUser.$dirty && addUser.username.$dirty && addUser.username.$error.pattern">Usernames can only have numbers, letters, & underscores.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="firstName">First Name</label>
+                        <div class="col-sm-8">
+                            <input name='firstName' class="form-control" type="text" id="firstName" placeholder="First Name" ng-model='user.firstName' required>
+                            <span class="help-block" ng-show="addUser.$dirty && addUser.firstName.$dirty && addUser.firstName.$error.required">Please enter a first name.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="lastName">Last Name</label>
+                        <div class="col-sm-8">
+                            <input name='lastName' class="form-control" type="text" id="lastName" placeholder="Last Name" ng-model='user.lastName' required>
+                            <span class="help-block" ng-show="addUser.$dirty && addUser.lastName.$dirty && addUser.lastName.$error.required">Please enter a last name.</span>
+                        </div>
+                    </div>                    
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="bio">Bio</label>
+                        <div class="col-sm-8">
+                            <textarea name='bio' rows="3" class="form-control" id="bio" placeholder="Add user's bio here..." ng-model='user.bio'></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="email">Email</label>
+                        <div class="col-sm-8">
+                            <input name='email' class="form-control" type="email" id="email" placeholder="Email Address" ng-model='user.email' email validate-email required>
+                            <span class="help-block" ng-show="addUser.$dirty && addUser.email.$dirty && addUser.email.$error.required">Please enter the uers's email.</span>
+                        </div>
+                    </div> 
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label radio">
+                            Gender:
+                        </label>
+                        
+                        <div class="col-sm-8">
+                            <label class="radio inline">
+                                <input ng-model="user.gender" value="male" type="radio" name="gender" required>
+                                Male
+                            </label>
+                            
+                            <label class="radio inline">
+                                <input ng-model="user.gender" value="female" type="radio" name="gender" required>
+                                Female
+                            </label>
+                        </div>
+                    
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <!-- MESSAGES -->
+                                <span class="help-block" ng-show="addUser.$dirty && addUser.gender.$dirty && addUser.gender.$invalid">Please enter your gender (just so we know how to address you!).</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BIRTHDAY MONTH -->
+                    <div ng-form name='age' class="form-group" required ui-validate-age>
+                        <label class=" col-sm-3 control-label">Birthday:</label>
+                        <div class="col-sm-2 control-label">
+                            <input id='month' name='month' type='text' class="form-control" placeholder='MM' ng-model='user.birthday.month' maxlength='2' required ui-validate-month />
+                        </div>
+
+                    <!-- BIRTHDAY DAY -->
+                        <div class="col-sm-2 control-label">
+                            <input id='day' name='day' type='text' class="form-control" placeholder='DD' ng-model='user.birthday.day' maxlength='2' required ui-validate-day />
+                        </div>
+
+
+                    <!-- BIRTHDAY YEAR -->
+                        <div class="col-sm-2 control-label">
+                            <input id='year' name='year' type='text' class="form-control" placeholder='YYYY' ng-model='user.birthday.year' maxlength='4' required ui-validate-year />
+                        </div>  
+
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <!-- MESSAGES -->
+                                <span class="help-block" ng-show="addUser.$dirty && age.$dirty && (age.month.$error.validateMonth || age.day.$error.validateDay || age.year.$error.validateYear || age.month.$error.required || age.day.$error.required || age.year.$error.required) && !age.$error.validateAge">Please enter your birthday.</span>
+                                <span class="help-block col-sm-8 col-offset-3" ng-show="(age.month.$dirty && age.day.$dirty && age.year.$dirty) && age.$error.validateAge">Must be at least 13 years old to register.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+                    <button type="submit" class="btn btn-primary" pct-validate-form-requirements>Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Collection Modal -->
+<div id="editUser" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editUser" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Edit User</h3>
+            </div>
+            <form name='editUser' class="form-horizontal" ng-submit='saveUser(user)' role="form" novalidate>
+                <div class="modal-body">
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="image">Avatar</label>
+                        <div class="col-sm-8">
+                            <img ng-src='{{ user.avatar }}' width='140' class="img-thumbnail">
+                             <a href="" ng-click='uploadImage(user)' class="btn btn-primary">Upload Image</a>
+                            <input name='image' id='avatarUpload' type='file' file-upload />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="username" >Username</label>
+                        <div class="col-sm-8">
+                            <input name='username' class="form-control" type="text" id="username" placeholder="Username" ng-model='user.username' validate-username ng-pattern='/^[a-zA-Z0-9_]*$/' required>
+                            <span class="help-block" ng-show="editUser.$dirty && editUser.username.$dirty && (editUser.username.$error.required || editUser.username.$invalid)">Please enter a username.</span>
+                            <span class="help-block error" ng-show="editUser.$dirty && editUser.username.$dirty && editUser.username.$error.pattern">Usernames can only have numbers, letters, & underscores.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="firstName">First Name</label>
+                        <div class="col-sm-8">
+                            <input name='firstName' class="form-control" type="text" id="firstName" placeholder="First Name" ng-model='user.firstName' required>
+                            <span class="help-block" ng-show="editUser.$dirty && editUser.firstName.$dirty && editUser.firstName.$error.required">Please enter a first name.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="lastName">Last Name</label>
+                        <div class="col-sm-8">
+                            <input name='lastName' class="form-control" type="text" id="lastName" placeholder="Last Name" ng-model='user.lastName' required>
+                            <span class="help-block" ng-show="editUser.$dirty && editUser.lastName.$dirty && editUser.lastName.$error.required">Please enter a last name.</span>
+                        </div>
+                    </div>                    
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="bio">Bio</label>
+                        <div class="col-sm-8">
+                            <textarea name='bio' rows="3" class="form-control" id="bio" placeholder="Add user's bio here..." ng-model='user.bio'></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="email">Email</label>
+                        <div class="col-sm-8">
+                            <input name='email' class="form-control" type="email" id="email" placeholder="Email Address" ng-model='user.email' email validate-email required>
+                            <span class="help-block" ng-show="editUser.$dirty && editUser.email.$dirty && editUser.email.$error.required">Please enter the uers's email.</span>
+                        </div>
+                    </div> 
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label radio">
+                            Gender:
+                        </label>
+                        
+                        <div class="col-sm-8">
+                            <label class="radio inline">
+                                <input ng-model="user.gender" value="male" type="radio" name="gender" required>
+                                Male
+                            </label>
+                            
+                            <label class="radio inline">
+                                <input ng-model="user.gender" value="female" type="radio" name="gender" required>
+                                Female
+                            </label>
+                        </div>
+                    
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <!-- MESSAGES -->
+                                <span class="help-block" ng-show="editUser.$dirty && editUser.gender.$dirty && editUser.gender.$invalid">Please enter your gender (just so we know how to address you!).</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BIRTHDAY MONTH -->
+                    <div ng-form name='age' class="form-group" required ui-validate-age>
+                        <label class=" col-sm-3 control-label">Birthday:</label>
+                        <div class="col-sm-2 control-label">
+                            <input id='month' name='month' type='text' class="form-control" placeholder='MM' ng-model='user.birthday.month' maxlength='2' required ui-validate-month />
+                        </div>
+
+                    <!-- BIRTHDAY DAY -->
+                        <div class="col-sm-2 control-label">
+                            <input id='day' name='day' type='text' class="form-control" placeholder='DD' ng-model='user.birthday.day' maxlength='2' required ui-validate-day />
+                        </div>
+
+
+                    <!-- BIRTHDAY YEAR -->
+                        <div class="col-sm-2 control-label">
+                            <input id='year' name='year' type='text' class="form-control" placeholder='YYYY' ng-model='user.birthday.year' maxlength='4' required ui-validate-year />
+                        </div>  
+
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <!-- MESSAGES -->
+                                <span class="help-block" ng-show="editUser.$dirty && age.$dirty && (age.month.$error.validateMonth || age.day.$error.validateDay || age.year.$error.validateYear || age.month.$error.required || age.day.$error.required || age.year.$error.required) && !age.$error.validateAge">Please enter your birthday.</span>
+                                <span class="help-block col-sm-8 col-offset-3" ng-show="(age.month.$dirty && age.day.$dirty && age.year.$dirty) && age.$error.validateAge">Must be at least 13 years old to register.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="Password">Password</label>
+                        
+                        <div class='col-sm-8'>
+                            <button type='button' class='btn btn-default' ng-click='resetPassword(user.id)'>Reset Password</button>
+                             <span class="help-block" ng-show="newPassword"><b>New password: <em>{{ newPassword }}</em></b><br />(note: For security, this password won't be here after you reload)</span>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+                    <button type="submit" class="btn btn-primary" pct-validate-form-requirements>Save User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

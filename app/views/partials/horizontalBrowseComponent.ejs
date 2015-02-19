@@ -1,0 +1,143 @@
+<!--<div class='content-menu horizontal-content-menu'>
+	<span ng-repeat='category in categoryList'>
+		<input id='{{ category.value }}' name='{{ category.value }}' type="checkbox" value="{{ category.value }}" ng-model='category.active' ng-checked='category.active' ng-change="queryFeeds(category.value)" ng-disabled='loading'>
+		<label for='{{ category.value }}' class='category-label'>{{ category.value }}</label>
+    </span>
+</div>-->
+
+<div class='content horizontal-content' p-endless-scroll p-scroll-do='loadFeeds' p-scroll-threshold='1000'>
+		<!-- Welcome bar -->
+		<h1 ng-show='welcome' style='white-space:normal;color:#888;margin:2px 0px;'>
+			<b>Welcome to Pictoral.ly - a place to discover the best creative & visual blogs.</b>
+		</h1>
+		<h2 ng-show='welcome' style='white-space:normal;color:#888;margin:0px;'>
+			Click the arrows <i class='icon-arrow-up intro-arrow'></i> on the left to up-vote your favorite blogs and help keep them at the top!
+		</h2>
+		<h4 ng-show='welcome' style='white-space:normal;color:#888;'>
+			You can re-vote for a blog every time they have a new post.
+		</h4>
+
+		<!-- Feeds -->
+		<div ng-repeat='feed in feeds' class='feed-box horizontal-feed-box'>
+			<p-cool-now-button></p-cool-now-button>
+			<div class='feed-label horizontal-feed-label' style='white-space:normal;'>
+				<div class='feed-title horizontal-feed-title'>
+					<div class='badges' ng-show='feed.badges'>
+						<span ng-repeat='badge in feed.badges'><a href='' ng-href='/?badges={{ badge|encodeURIComponent }}' class='badge badge-{{ badge|lowercase|fillSpaces }} pct-badge'>{{ badge|uppercase }}</a><br /></span>
+					</div>
+					<a class='inherit-color text-large pct-feed-link' href='{{ feed.url }}' target='_blank'>{{ feed.title }}</a>
+					<br/>
+					<hr/>
+					<span ng-repeat='category in feed.categories' style='white-space:nowrap;display:inline-block;'>
+					<a href='/?categories={{ category|encodeURIComponent }}' class='pct-feed-category'>{{ category|uppercase }}</a><span ng-hide='$last'>,&nbsp;</span>
+					</span>
+					<br/>
+					<br/>
+					<!--<span class='text-detail text-small'>posted {{ feed.lastPublished|timeAgo }}</span>-->
+					<span ng-show='feed.storeUrl || feed.portfolioUrl || feed.newsletterSignupUrl || feed.city || feed.state || feed.country'><br/></span>
+					<span ng-show='feed.storeUrl' style='white-space:nowrap;display:inline-block;'>
+						<br/>
+						<i class='icon-shopping-cart feed-attribute'></i>
+						<a href='' ng-href='{{ feed.storeUrl }}' class='pct-store-link' target='_blank'>Visit Shop</a>
+					</span>
+					<span ng-show='feed.portfolioUrl' style='white-space:nowrap;display:inline-block;'>
+						<br/>
+						<i class='icon-pencil feed-attribute'></i>
+						<a href='' ng-href='{{ feed.portfolioUrl }}' class='pct-portfolio-link' target='_blank'>See Portfolio</a>
+					</span>
+					<span ng-show='feed.newsletterSignupUrl' style='white-space:nowrap;display:inline-block;'>
+						<br/>
+						<i class='icon-envelope feed-attribute'></i>
+						<a href='' ng-href='{{ feed.newsletterSignupUrl }}' class='pct-newsletter-link' target='_blank'>Subscribe to Newsletter</a>
+					</span>
+					<span ng-show='feed.city || feed.state || feed.country' style='display:inline-block;white-space: nowrap;'>
+						<br/>
+						<br/>
+						<i class='icon-map-marker feed-attribute'></i>
+						<span style='display:inline-block;white-space:normal;vertical-align:top;'>
+							<a href='' ng-href='/?city={{ feed.city|encodeURIComponent }}{{ feed.state && ("&state=" + (feed.state|encodeURIComponent)) || "" }}{{ feed.country && ("&country=" + (feed.country|encodeURIComponent)) || "" }}' class='pct-city'>{{ feed.city }}</a><span ng-show='(feed.city && feed.state) || (feed.city && feed.country)'>,</span>
+							<a href='' ng-href='/?state={{ feed.state|encodeURIComponent }}' class='pct-state'>{{ feed.state }}</a><span ng-show='feed.state && feed.country'>,</span>
+							<a href='' ng-href='/?country={{ feed.country|encodeURIComponent }}' class='pct-country'>{{ feed.country }}</a>
+						</span>
+					</span>
+					<span ng-show='feed.twitterUrl || feed.instagramUrl || feed.facebookUrl || feed.pinterestUrl || feed.tumblrUrl || feed.flickrUrl' class='horizontal-social-links' style='white-space:nowrap;display:inline-block;'>
+						<div class='text-detail text-small' style='margin-bottom:5px;'>Also on...</div>
+						<span ng-show='feed.twitterUrl'><a href='' ng-href='{{ feed.twitterUrl }}' class='pct-twitter-link' target='_blank'><i class='icon-twitter icon-large'></i></a>&nbsp;</span>
+						<span ng-show='feed.instagramUrl'><a href='' ng-href='{{ feed.instagramUrl }}' class='pct-instagram-link' target='_blank'><i class='icon-instagram icon-large'></i></a>&nbsp;</span>
+						<span ng-show='feed.facebookUrl'><a href='' ng-href='{{ feed.facebookUrl }}' class='pct-facebook-link' target='_blank'><i class='icon-facebook icon-large'></i></a>&nbsp;</span>
+						<span ng-show='feed.pinterestUrl'><a href='' ng-href='{{ feed.pinterestUrl }}' class='pct-pinterest-link' target='_blank'><i class='icon-pinterest icon-large'></i></a>&nbsp;</span>
+						<span ng-show='feed.tumblrUrl'><a href='' ng-href='{{ feed.tumblrUrl }}' class='pct-tumblr-link' target='_blank'><i class='icon-tumblr icon-large'></i></a>&nbsp;</span>
+						<span ng-show='feed.flickrUrl'><a href='' ng-href='{{ feed.flickrUrl }}' class='pct-flickr-link' target='_blank'><i class='icon-flickr icon-large'></i></a>&nbsp;</span>
+					</span>
+				</div>
+				<!--<div ng-click='addFeed(feed)' class='entry-button entry-button-active text-small' ng-show='!feed.isSubscribed'>SUBSCRIBE<span style='float:right;'>{{ feed.subscribers.length }}</span></div>
+				<div class='entry-button text-small' ng-show='feed.isSubscribed'>SUBSCRIBED&nbsp;<i style='color:rgb(58, 179, 58);' class='icon-ok'></i><span style='float:right;'>{{ feed.subscribers.length }}</span></div>-->
+			</div>
+
+			<!-- Images -->
+			<div class='horizontal-entries' p-image-sort>
+				<div class="entry-box horizontal-entry-box">
+					<div ng-show='feed.largeImages' style='float: left;'>
+						<div class='entry-image-medium horizontal-entry-image-medium' ng-repeat='image in feed.largeImages' style='width:{{ image.largeThumbnail.width || (image.width*300)/image.height }}px;height:300px;border-bottom: 1px solid #fff;'>
+							<div class='entry-image-info' style='line-height:320px;'>
+								<span style='line-height:0;'>
+									<span style='width:{{ image.largeThumbnail.width - 30 }}px;line-height:2;'>
+										<a href='' ng-href='{{ image.entryUrl }}' class='pct-entry-lg-link' target='_blank'>{{ image.entryTitle }}</a>
+									</span><br />
+									<span style='line-height:2;color:#aaa;'><i class='icon-time'></i> {{ image.entryPublishDate|timeAgo }}</span>
+								</span>
+							</div>
+							<img pct-image-cloak ng-src='{{ image.large2xThumbnail.url || image.url }}' width='{{ Math.floor(image.largeThumbnail.width) }}' height='{{ image.largeThumbnail.height || 300 }}'/>
+						</div>
+					</div>
+					
+					<div style='float: left;'>
+						<div class='entry-image-medium horizontal-entry-image-medium' ng-repeat='image in feed.smallImages' style='width:{{ image.smallThumbnail.width || (image.width*149)/image.height }}px;height:149px;'>
+							<div class='entry-image-info' style='line-height:169px;'>
+								<span style='line-height:0;'>
+									<span style='width:{{ image.smallThumbnail.width - 30 }}px;line-height:2;'>
+										<a href='' ng-href='{{ image.entryUrl }}' class='pct-entry-sm-link' target='_blank'>{{ image.entryTitle }}</a>
+									</span><br />
+									<span style='line-height:2;color:#aaa;'><i class='icon-time'></i> {{ image.entryPublishDate|timeAgo }}</span>
+								</span>
+							</div>
+							<img pct-image-cloak ng-src='{{ image.largeThumbnail.url || image.url }}' width='{{ Math.floor(image.smallThumbnail.width) }}' height='{{ image.smallThumbnail.height || 150 }}'/>
+						</div>
+					</div>
+
+					<div ng-hide='feed.largeImages' style='float: left;'>
+						<div class='entry-image-medium horizontal-entry-image-medium' ng-repeat='image in feed.smallImages2' style='width:{{ image.smallThumbnail.width || (image.width*149)/image.height }}px;height:149px;border-top: 1px solid #fff;'>
+							<div class='entry-image-info' style='line-height:169px;'>
+								<span style='line-height:0;'>
+									<span style='width:{{ image.smallThumbnail.width - 30 }}px;line-height:2;'>
+										<a href='' ng-href='{{ image.entryUrl }}' class='pct-entry-sm2-link' target='_blank'>{{ image.entryTitle }}</a>
+									</span><br />
+									<span style='line-height:2;color:#aaa;'><i class='icon-time'></i> {{ image.entryPublishDate|timeAgo }}</span>
+								</span>
+							</div>
+							<img pct-image-cloak ng-src='{{ image.smallThumbnail.url || image.url }}' width='{{ Math.floor(image.smallThumbnail.width) }}' height='{{ image.smallThumbnail.height || 150 }}'/>
+						</div>
+					</div>
+
+					<div ng-hide='feed.largeImages' style='float: left;'>
+						<div class='entry-image-medium horizontal-entry-image-medium' ng-repeat='image in feed.smallImages3' style='width:{{ image.smallThumbnail.width || (image.width*150)/image.height }}px;height:150px;border-top: 1px solid #fff;'>
+							<div class='entry-image-info' style='line-height:170px;'>
+								<span style='line-height:0;'>
+									<span style='width:{{ image.smallThumbnail.width - 30 }}px;line-height:2;'>
+										<a href='' ng-href='{{ image.entryUrl }}' class='pct-entry-sm3-link' target='_blank'>{{ image.entryTitle }}</a>
+									</span><br />
+									<span style='line-height:2;color:#aaa;'><i class='icon-time'></i> {{ image.entryPublishDate|timeAgo }}</span>
+								</span>
+							</div>
+							<img pct-image-cloak ng-src='{{ image.smallThumbnail.url || image.url }}' width='{{ Math.floor(image.smallThumbnail.width) }}' height='{{ image.smallThumbnail.height || 150 }}'/>
+						</div>
+					</div>
+				</div>
+				<div class='load-more-button' ng-click='loadMoreImages(feed)'><span style='line-height:14px;display:inline-block;'>LOAD<br />MORE</span></div>
+			</div>
+		</div>
+	<pct-submit-blog-footer></pct-submit-blog-footer>
+	<div class='loading-placeholder' ng-show='loading' p-spinner>
+		<img src="/assets/img/loading.gif" width='50' height='50'/>
+	</div>
+</div>

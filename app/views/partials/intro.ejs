@@ -1,0 +1,294 @@
+<header class='intro-header'>
+	<div class='buttons'>
+		<!-- SIGN IN -->
+		<a href='' ng-href='/login' class='thick yellow-dark' target='_self'>Log in</a>
+
+		<!-- REQUEST INVITE -->
+		<a href='' pct-hash-link='join' class='thick yellow-dark' pct-mx='invite link top'>Request Invite</a>
+	</div>
+</header>
+
+<div ng-show='!$root.smallDevice' class='spinning-logo shadow-dark' ng-style="{ 'top': windowHeight/20+80 }">
+	<img ng-src='/assets/img/plate.png' width='200' height='200' pct-scroll-spin='45' />
+</div>
+
+<div>
+	<!-- TITLE -->
+	<div id='intro' pct-size-to-window>
+		<!-- INTRO FRAMES -->
+
+		<div class='main-content visible' ng-style="{ 'margin-top': windowHeight/20 }">
+
+			<!-- LOGO -->
+			<!--<h1 class='black'><a href='' ng-href='/' class='thick yellow-dark'>Smörgåsbord</a><span class='thin'> is a convenient way to find & share creative personas.</span></h1>-->
+			<h2 class='black thin'><a href='' ng-href='/' class='thick yellow-dark'>Smörgasbord</a> is a delicious sampling of your <span class='thick plate-blue'>Blog</span>, <span class='thick plate-red'>Instagram</span>, <span class='thick plate-green'>Twitter</span>, and <span class='thick plate-orange'>Other Info</span> about your creative self.</span></h2>
+			<a href='' ng-href='http://www.twitter.com/teamsmorgasbord' class='small thick yellow-light' target="_blank">
+				<i class='fa fa-twitter'></i> <span ng-bind-html='recentTweet.text'>
+			</a>
+		</a>
+		</div>
+
+		<!-- GOLD LINE -->
+		<!--<div id='goldLine3' class='gold-line long-gold-line' pct-arrow-bounce pct-arrow-bounce-lg='200' pct-arrow-bounce-sm='100'></div>-->
+
+		<!-- GOLD ARROW HEAD -->
+		<!--<div class='bottom visible'>
+			<div id='goldArrowHead' class='center' pct-hash-link='feeds'></div>
+		</div>-->
+		<div id='takeAPeek' pct-hash-link='feeds'></div>
+		<!--<div id='open247' pct-hash-link='feeds'></div>
+		<div id='noShirts' pct-hash-link='feeds'></div>-->
+		<!--div ng-show='!$root.smallDevice' id='sideMessage'>FRESH FROM<br />THE SOURCE</div>-->
+	</div>
+
+	<!-- FEED BOXES -->
+	<div id='feeds' class=''>
+		<!--<div class='intro-header visible' >
+			<div class='left'>
+				<span><a href='' ng-href='/' class='thick yellow-dark'>Smörgåsbord</a> is a bite-sized way to find & follow beautiful blogs.</span>
+			</div>
+			<div ng-show='!$root.smallDevice' class='right buttons'>
+				<a href='' ng-href='/login' class='thick yellow-dark' target='_self'>Log In</a>
+
+				<a href='' pct-hash-link='join' class='thick yellow-dark' pct-mx='invite link top'>Request Invite</a>
+			</div>
+			<div class="shadow-dark-abs" p-scroll-appear p-scroll-appear-opacity-initial='1' p-scroll-appear-opacity-finish='0' p-scroll-appear-range='0' p-scroll-appear-offset='{{ (windowHeight+3) }}'></div>
+		</div>
+		<div class='intro-header intro-header-fixed visible' p-scroll-appear p-scroll-appear-opacity-initial='0' p-scroll-appear-opacity-finish='1' p-scroll-appear-range='0' p-scroll-appear-offset='{{ (windowHeight+3) }}'>
+			<div class='left'>
+				<span><span class='thick'>Smörgåsbord</span> is a bite-sized way to find & follow beautiful blogs.</span>
+			</div>
+			<div ng-show='!$root.smallDevice' class='right buttons'>
+				<a href='' ng-href='/login' class='thick yellow-dark' target='_self'>Log in</a>
+
+				<a href='' pct-hash-link='join' class='thick yellow-dark' pct-mx='invite link top'>Request Invite</a>
+			</div>
+			<div class="shadow-dark-abs" p-scroll-appear p-scroll-appear-opacity-initial='1' p-scroll-appear-opacity-finish='0' p-scroll-appear-range='20' p-scroll-appear-offset='{{ (windowHeight+2300-27) }}' p-scroll-appear-offset-mobile='{{ (windowHeight+2300-27) }}'></div>
+		</div>-->
+		<div id='directory' class='intro-directory'>
+			<div class='thick'>
+				<span class='medium'><span class=''>Smörgasbords</span> make blog discovery fast & fun.</span><br /><span class='thin'>You'll be surpised at how quickly you find a creative story you love.</span><br /><br /><span class='thick'>Check out some of our favorites:<br /><br />
+			</div>
+			<%= include directoryComponent %>
+		</div>
+		<!-- 7 SMALL ROWS -->
+
+		<!--<div class='section-header'>
+			<div class='section-index'>1</div>
+			<h2 class='pad'>Discover Blogs, <span pct-celebrate="light">Visually</span></h2>
+			<p class='pad'>Get inspired by the beautiful feed of blogs - and make it your own by teaching Pictoral.ly what fits your style.</p>
+		</div>-->
+
+		<!--<div ng-repeat='row in introFeeds' class='feed-row feed-row-indent-{{ (($index + 3) % 3) + 1 }}'>
+			<div ng-repeat='feed in row.main' class='feed-box-tiled'>
+				<pct-hover-billboard pct-hash-link='join' pct-mx='invite link feed'></pct-hover-billboard>
+				<div class='feed-images-small'>
+					<div ng-repeat='image in feed.imagePreview' class='feed-image-wrapper'>
+						<img pct-image-cloak ng-src='{{ image.smallThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width }}' />
+					</div>
+				</div>
+
+				<div class='feed-info-small'>
+					<a href='{{ feed.url }}' class='feed-title-small' target='_blank'>{{ feed.title|uppercase }}</a>
+					<span class='feed-location'>
+						<span ng-show='feed.city' class='detail'>{{ feed.city }}<span ng-show='feed.city && (feed.state || feed.country)' class='detail'>, </span></span>
+						<span ng-show='feed.state' class='detail'>{{ feed.state }}<span ng-show='feed.state && feed.country' class='detail'>, </span></span>
+						<span ng-show='feed.country' class='detail'>{{ feed.country }}</span>
+						&nbsp;
+					</span>
+					<span ng-show='!smallDevice' class='right'>
+						<span class='thumbs-up'><i class='fa fa-thumbs-up'></i></span>
+						<span class='thumbs-down'><i class='fa fa-thumbs-down'></i></span>
+					</span>
+				</div>
+
+				<div class='shadow-horizontal-bottom'></div>
+			</div>
+			<div class='feed-row-mirror'>
+				<div ng-repeat='feed in row.mirror' class='feed-box-tiled shadow-dark'>
+					<pct-hover-billboard pct-hash-link='join'></pct-hover-billboard>
+					<div class='feed-images-small'>
+						<div ng-repeat='image in feed.imagePreview' class='feed-image-wrapper'>
+							<img pct-image-cloak ng-src='{{ image.smallThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width }}' />
+						</div>
+					</div>
+					<div class='feed-info-small'>
+						<a href='{{ feed.url }}' class='feed-title-small' target='_blank'>{{ feed.title|uppercase }}</a>
+						<span class='feed-location'>
+							<span ng-show='feed.city' class='detail'>{{ feed.city }}<span ng-show='feed.city && (feed.state || feed.country)' class='detail'>, </span></span>
+							<span ng-show='feed.state' class='detail'>{{ feed.state }}<span ng-show='feed.state && feed.country' class='detail'>, </span></span>
+							<span ng-show='feed.country' class='detail'>{{ feed.country }}</span>
+							&nbsp;
+						</span>
+						
+						<span ng-show='!smallDevice' class='right'>
+							<span class='thumbs-up'><i class='fa fa-thumbs-up'></i></span>
+							<span class='thumbs-down'><i class='fa fa-thumbs-down'></i></span>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>-->
+	</div>
+
+	<!-- DESCRIPTIONS -->
+	<!--<div id='info'>
+		<div class='centered-anchor'><a href='' pct-hash-link='join' class='gold-circle-night'><span>REQUEST<br />INVITE</span></a></div>
+		
+		<div class='main-content'>
+			<div class='section-header'>
+				<h2 class='pad'>How It Works</h2>
+			</div>
+
+			<div class='skinny-wrapper'>
+				<div class='info-section'>
+					<div><i class='icon icon-medium'><img src='/assets/img/icon-discover.png' /></i></div>
+					<h3>Find blogs you'll love.</h3>
+					<p>We've designed Pictoral.ly to help you discover the best creative storytellers (like the ones above), fast.  With inspiring curated lists, a set of tools to help navigate our library, and a heavily visual design, you'll quickly find the rights ones for you.</p>
+				</div>
+				<div class='info-section'>
+					<div><i class='icon icon-medium'><img src='/assets/img/icon-curate.png' /></i></div>
+					<h3>Curate your list of favorites.</h3>
+					<p>As you discover great stuff, you can collect it into a list so don't forget about it.  You can also annotate your list - telling the stories behind why each one is meaningful to you.</p>
+				</div>
+				<div class='info-section'>
+					<div><i class='icon icon-medium'><img src='/assets/img/icon-share.png' /></i></div>
+					<h3>Help others discover.</h3>
+					<p>We provide tools to help you help others discover the same great blogs you have.  Publish your list on Pictoral.ly and then promote it on your blog or site.</p>
+				</div>
+
+			</div>
+		</div>
+
+		<div class='centered-anchor centerered-anchor-frames-night'><img pct-image-cloak src='/assets/img/frames-night.png' class='frames-night' width='1200' /></div>
+	</div>-->
+
+	<!--<div id='snapshots'>
+		<div class='main-content'>
+			<div class='section-header'>
+				<div class='section-index'>2</div>
+				<h2 class='pad'>Record your Discoveries</h2>
+				<p class='pad'>Keep track of & share your discoveries by taking snapshots - visual bookmarks of the content you've found.</p>
+			</div>
+		</div>
+		<div class='centered-anchor' pct-carousel-anchor>
+			<div class='snapshot-carousel-frame'>
+				<div class='snapshot-carousel-frame-shadow'></div>
+			</div>
+			<div pct-carousel='snapshots' pct-carousel-width='340' pct-carousel-height='380' pct-carousel-count='7'>
+				<div ng-repeat='snapshot in carousel' class='snapshot-box-wrapper shadow-dark' ng-style="{ left: snapshot.left, opacity: snapshot.opacity }">
+					<div class="snapshot-box">
+						<img pct-image-cloak ng-src='{{ snapshot.large2xThumbnail || snapshot.url }}' width='300' height='300' />
+					</div>
+					<div class="snapshot-box-info">
+						<a href='{{ snapshot.feed.url }}' class='light' target='_blank' title='{{ snapshot.feed.title }}'>
+						<span class='snapshot-box-info-title'>{{ snapshot.feed.title }}</span></a>
+						<span class='snapshot-time-ago small thin gray'>{{ snapshot.dateAdded|timeAgo }}</span>
+						
+						<a href='/user/{{ snapshot.user.username }}' class='light' target='_blank'><div class='snapshot-user-avatar right'><img ng-src='{{ snapshot.user.avatar }}' class='small-avatar' width='25' height='25' /></div></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>-->
+
+	<!-- COLLECTIONS -->
+
+	<!-- FRAMES -->
+		<!--<div class='centered-anchor centerered-anchor-frames-day'><img pct-image-cloak src='/assets/img/frames-day.png' class='frames-day' width='1200' /></div>-->
+		
+		<!-- SUN LINK -->
+		<!--<div class='centered-anchor'><a href='' pct-hash-link='join' class='gold-circle-day'><span>REQUEST<br />INVITE</span></a></div>-->
+	<!--<div id='collections'>
+		
+		<div class='main-content'>
+			<div class='section-header'>
+				<div class='section-index'>4</div>
+				<h2 class='pad'>Get Inspired by Collections</h2>
+				<p class='pad'>Each week Pictoral.ly features the favorite visual, creative blogs of one of our favorite creative people.</p>
+			</div>
+			
+			<div ng-repeat='collectionSet in collections' class='collection-row'>
+				<div ng-repeat='collection in collectionSet.main' ng-class="{'your-collection': collection.yourCollection}" class='collection-box-wrapper'>
+					<span ng-if='!collection.yourCollection'>
+						<%= include collectionComponent %>
+					</span>
+					<div id='yourCollection' pct-hash-link='join' ng-if='collection.yourCollection' class='collection-box'>
+						<div class='collection-body'>
+							<h3>YOUR COLLECTION HERE</h3>
+							<span>Click to request an invite.</span>
+						</div>
+					</div>
+				</div>
+				<div class='collection-row-mirror'>
+					<div ng-repeat='collection in collectionSet.mirror'>
+						<%= include collectionComponent %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>-->
+
+	<!-- REQUEST INVITE -->
+	<div id='join' pct-size-to-window pct-bottom-margin='0' pct-bottom-margin-mobile='0'>
+		<div class='join-wrapper' pct-vertically-cente pct-vertically-center-offset='100' pct-vertically-center-offset-mobile='50'>
+			<div class='large thick black'>
+				<span class='medium'>Want a Smörgåsbord for your creative persona?</span><br /><span class='thin'>All you need is a blog with great pictures.</span><br /><br />Email us at: <a href='' ng-href='mailto:hello@visitsmorgasbord.com' class='yellow-light'>hello@visitsmorgasbord.com</a>
+			</div>
+			<br /><br /><br />
+			<span class='large thick black'>-</span>
+			<br /><br /><br /><br />
+			<div class='large thick black'>
+				<span class='medium'>Have a Smörgåsbord?</span><br /><span class='thin'>Link to it on your blog to give your first-time visitors a great way to quickly get to know you.</span><br /><br />Here are some badges you can use:<br />
+			</div><br />
+			<div>
+				<a href='' ng-href='/assets/img/badge-48.png' target='_blank'><img ng-src='/assets/img/badge-48.png' class='badge' width='52' height='55' /></a>
+				<a href='' ng-href='/assets/img/badge-32.png' target='_blank'><img ng-src='/assets/img/badge-32.png' class='badge' width='34' height='37' /></a>
+				<a href='' ng-href='/assets/img/badge-24.png' target='_blank'><img ng-src='/assets/img/badge-24.png' class='badge' width='26' height='28' /></a>
+				<a href='' ng-href='/assets/img/badge-16.png' target='_blank'><img ng-src='/assets/img/badge-16.png' class='badge' width='18' height='19' /></a>
+			</div>
+			<!--<div class='section-header'>
+				<h2 class='pad' pct-celebrat="dark" pct-celebrate-speed='250'>Want your Smörgåsbord?</h2>
+			</div>
+
+			<div class=''>
+				<form name='requestForm' ng-hide='confirmed' id='inviteRequest' class='' ng-submit='request(invitee)'>-->
+					<!--<div class='input-group'>
+						<input id='favoriteBlog' name='favoriteBlog' ng-model='invitee.favoriteBlog' type='text' placeholder='Tell us your favorite blog...' required />
+						<i ng-show='!firstTry && requestForm.favoriteBlog.$dirty && requestForm.favoriteBlog.$invalid || requestForm.favoriteBlog.$dirty && requestForm.favoriteBlog.$error.required || !firstTry && requestForm.favoriteBlog.$valid' class='input-message-icon' ng-class="{'icon-remove': requestForm.favoriteBlog.$invalid, 'icon-ok': requestForm.favoriteBlog.$valid, 'error': requestForm.favoriteBlog.$invalid, 'success': requestForm.favoriteBlog.$valid}"></i>
+					</div>-->
+
+					<!--<div class='input-group input-inline' ng-class="{ 'input-inline-liquid': $root.smallDevice, 'two-thirds': $root.smallDevice }">
+						<input id='email' name='email' type='email' ng-model='invitee.email' placeholder='Your email' required email />
+					</div>
+
+					<input id='submit' name='submit' type='submit' value='Request Invite' class='input-inline' pct-validate-form-requirements ng-class="{ 'input-inline-liquid': $root.smallDevice, 'third': $root.smallDevice }" />
+					<div ng-bind='error' class='error error-inline'></div>
+				</form>
+
+				<div ng-show='confirmed' class='skinny-wrapper confirmed'>
+					<h1 class='super'>Nice</h1>
+					<p>Your request has been sent.<br /><a href='' class='dark' ng-click='confirmed=false' target='_blank'>Want to make another request?</a></p>
+				</div>
+			</div>-->
+
+			<footer class='black very-small'>
+				<!-- OFFICIAL INFO -->
+				<span>
+					<span class='no-break left'>MADE IN LA & SWEDEN</span><span class='no-break right'>Say hi to us: <!--<a href='mailto:hello@pictoral.ly' class='menu-button'>hello@pictoral.ly</a></span> / 
+
+					<span class='no-break'> follow us:-->
+						<!-- PINTEREST -->
+						<a href='http://www.pinterest.com/teamsmorgasbord' class='yellow-light' target='_blank'><i class='icon-pinterest'></i></a>
+
+						<!-- TWITTER -->
+						<a href='http://www.twitter.com/teamsmorgasbord' class='yellow-light' target='_blank'><i class='icon-twitter'></i></a>
+
+						<!-- FACEBOOK -->
+						<a href='http://www.instagram.com/teamsmorgasbord' class='yellow-light' target='_blank'><i class='icon-instagram'></i></a>
+					</span>
+				</span>
+			</footer>
+		</div>
+	</div>
+</div>

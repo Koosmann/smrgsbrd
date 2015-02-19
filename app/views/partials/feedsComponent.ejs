@@ -1,0 +1,212 @@
+<ul id='feeds' pct-scroll-lock pct-feeds>
+	<div ng-if='placeholder' class='placeholder'>
+		<h1>{{ placeholder.title }}</h1>
+		<h4>{{ placeholder.message }}</h4>
+	</div>
+	<li ng-if='!placeholder' ng-repeat='feed in feedScope.feeds' class='fade-out' ng-hide='feed.hidden && !showHidden' pct-feed>
+		<div class='feed-box-wrapper'>
+			<div class='feed-box-liquid shadow' ng-mouseenter='feed.feedHover=true' ng-mouseleave='feed.feedHover=false'>
+				<div ng-show='isUpdated' class='feed-updated fade-out'></div>
+				<div class='feed-images' ng-mouseover='feed.showMenu=true' ng-mouseleave='feed.showMenu=false'>
+					
+					<div ng-show='feed.snapshotOpen && !feed.takingSnapshot' class='snapshot-wrapper fade-out' pct-frame-snapshot>
+						<div class='snapshot-crop-left'></div>
+						<div class='snapshot-viewfinder fade-out' ng-mouseenter='viewfinderHover=true' ng-mouseleave='viewfinderHover=false'>
+							<div ng-show='feed.snapshotOpen' class='snapshot-viewfinder-frame' ng-class="{ 'snapshot-viewfinder-frame-hover': viewfinderHover && !feed.takingSnapshot && !feed.snapshotPreview }" pct-preview-snapshot>
+							</div>
+							<div ng-show='feed.snapshotOpen && feed.snapshotPreview' class='snapshot-viewfinder-preview fade-out'>
+								<div class='snapshot-preview-wrapper'>
+									<div class='snapshot-viewfinder-preview-snapshot-wrapper'>	
+										<div class='snapshot-viewfinder-preview-snapshot'>
+											<div class='snapshot-preview-images'>
+												<div class='snapshot-preview-images-small' ng-style="{ marginLeft: -.667*feed.snapshot.images[0].offset }">
+													<div ng-repeat='image in feed.snapshot.images[0].images' class='feed-image-wrapper'>
+														<img pct-image-cloak ng-src='{{ image.large2xThumbnail.url || image.url }}' height='200' width='{{ image.largeThumbnail.width*200/300 }}' />
+													</div>
+												</div>
+												<div class='snapshot-preview-images-small' ng-style="{ marginLeft: -.667*feed.snapshot.images[1].offset }">
+													<div ng-repeat='image in feed.snapshot.images[1].images' class='feed-image-wrapper'>
+														<img pct-image-cloak ng-src='{{ image.large2xThumbnail.url || image.url }}' height='100' width='{{ image.largeThumbnail.width*100/300 }}' />
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class='shadow-horizontal-bottom shadow-dark'></div>
+									</div>
+									
+								</div>
+								<!--<div class="snapshot-comment-input-wrapper">
+									<textarea ng-model='feed.snapshotComment' placeholder='Write a short comment...' maxlength="140"></textarea>
+								</div>-->
+								<div class="text-center">
+									<button class='option-button' pct-reopen-snapshot>Retake</button><!--
+									--><button class='confirm-button' pct-take-snapshot><i class='fa fa-check'></i></button>
+								</div>
+							</div>
+						</div>
+						<div class='snapshot-crop-right'></div>
+					</div>
+					<div>
+						<div ng-if='feed.longLargeImagePreview'>
+							<div class='feed-images-small'>
+								<div ng-repeat='image in feed.longLargeImagePreview' class='feed-image-wrapper' pct-hover='image' pct-hover-param='showImage'>
+									<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<div class='share-on-list'>
+											<%= include shareButtons %>
+										</div>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-lg-link' pct-image-link>
+											<span class='image-source'>
+												<span class='black'>{{ image.entryPublishDate|timeAgo }} </span>
+												{{ image.entryTitle }}
+											</span>
+										</a>
+									</div>
+									<img pct-image-cloak ng-src='{{ (retina && !$root.smallDevice) && image.large2xThumbnail.url || image.largeThumbnail.url || image.url }}' height='300' width='{{ (image.largeThumbnail.width|roundUp) || (image.width*300/image.height)|roundUp }}' />
+								</div>
+							</div>
+							<div class='feed-images-small'>
+								<div ng-repeat='image in feed.longLargeImagePreview2' class='feed-image-wrapper' pct-hover='image' pct-hover-param='showImage'>
+									<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<div class='share-on-list'>
+											<%= include shareButtons %>
+										</div>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+										</a>
+									</div>
+									<img pct-image-cloak ng-src='{{ (retina && !$root.smallDevice) && image.largeThumbnail.url || image.smallThumbnail.url || image.url }}' height='150' width='{{ (image.smallThumbnail.width|roundUp) || (image.width*150/image.height)|roundUp }}' />
+								</div>
+							</div>
+						</div>
+						<div ng-if='!feed.longLargeImagePreview'>
+							<div class='feed-images-small'>
+								<div ng-repeat='image in feed.longSmallImagePreview' class='feed-image-wrapper' pct-hover='image' pct-hover-param='showImage'>
+									<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<div class='share-on-list'>
+											<%= include shareButtons %>
+										</div>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+										</a>
+									</div>
+									<img pct-image-cloak ng-src='{{ (retina && !$root.smallDevice) && image.largeThumbnail.url || image.smallThumbnail.url || image.url }}' height='150' width='{{ (image.smallThumbnail.width|roundUp) || (image.width*150/image.height)|roundUp }}' />
+								</div>
+							</div>
+							<div ng-if='feed.longSmallImagePreview2' class='feed-images-small'>
+								<div ng-repeat='image in feed.longSmallImagePreview2' class='feed-image-wrapper' pct-hover='image' pct-hover-param='showImage'>
+									<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<div class='share-on-list'>
+											<%= include shareButtons %>
+										</div>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+										</a>
+									</div>
+									<img pct-image-cloak ng-src='{{ (retina && !$root.smallDevice) && image.largeThumbnail.url || image.smallThumbnail.url || image.url }}' height='150' width='{{ (image.smallThumbnail.width|roundUp) || (image.width*150/image.height)|roundUp }}' />
+								</div>
+							</div>
+							<div ng-if='feed.longSmallImagePreview3 && !$root.smallDevice' class='feed-images-small'>
+								<div ng-repeat='image in feed.longSmallImagePreview3' class='feed-image-wrapper' pct-hover='image' pct-hover-param='showImage'>
+									<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<div class='share-on-list'>
+											<%= include shareButtons %>
+										</div>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+										</a>
+									</div>
+									<img pct-image-cloak ng-src='{{ retina && image.largeThumbnail.url || image.smallThumbnail.url || image.url }}' height='150' width='{{ (image.smallThumbnail.width|roundUp) || (image.width*150/image.height)|roundUp }}' />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='feed-info-large'>
+					<span ng-show='feed.clicks' class='feed-clicks-wrapper'>
+						<span class='feed-clicks-wrapper-span'>
+							<span class='feed-clicks'>{{ feed.clicks }}</span>
+							<br />
+							<span ng-pluralize count='feed.clicks' when="{ '0':'clicks', 'one': 'click', 'other': 'clicks' }" class='small'></span>
+						</span>
+					</span>
+					<span class='feed-title'>
+						<span>
+							<a href='/feed/{{ feed.id }}' class='light pct-feed-link' pct-title-link>
+								{{ feed.title }}
+							</a>
+						</span>
+						<br ng-if='(feed.city || feed.state || feed.country) && $root.smallDevice' />
+						<span class='feed-location' ng-class="{ 'very-small': $root.smallDevice }">
+							<span ng-show='feed.city' class='detail'>{{ feed.city }}<span ng-show='feed.city && (feed.state || feed.country)' class='detail'>, </span></span>
+							<span ng-show='feed.state' class='detail'>{{ feed.state }}<span ng-show='feed.state && feed.country' class='detail'>, </span></span>
+							<span ng-show='feed.country' class='detail'>{{ feed.country }}</span>
+							&nbsp;
+						</span>
+					</span>
+					<span class='right small inline-menu fade-out'>
+						<span pct-open-snapshot ng-show='!takingSnapshot && !$root.smallDevice' ng-class="{ 'disabled': snapshot }" class='inline-menu-button'>
+							<i class='fa fa-camera-retro'></i>
+							Take Snapshot
+						</span>
+						<span ng-show="takingSnapshot && !$root.smallDevice" class='inline-menu-button disabled'>
+							<i class='fa fa-camera-retro'></i>
+							Saving Snapshot
+						</span>
+						<!--<span ng-show='!$root.smallDevice' ng-click='$root.addToList=true;$root.feedToAdd=feed;$root.modalOpen=true;' ng-class="{ 'gold': addToList }" class='inline-menu-button'>
+							<i class='fa fa-tag'></i>
+							Add to List
+						</span>-->
+						<!--<span>
+							<a href='' ng-href='/feed/{{ feed.id }}/find-similar'>
+								<i class='fa fa-search'></i>
+								Find Similar
+							</a>
+						</span>&nbsp;&nbsp;&nbsp;
+						<span pct-mark-as-seen>
+							<i class='fa fa-check'></i>
+							Mark as Seen
+						</span>&nbsp;&nbsp;&nbsp;-->
+						<span ng-show='!$root.smallDevice' pct-hide-feed ng-class="{ 'gold': feed.hidden }" class='inline-menu-button'>
+							<i class='fa fa-thumbs-o-down'></i>
+							{{ feed.hidden ? 'Hidden' : 'Hide' }}
+						</span>
+						<span pct-favorite-feed ng-class="{ 'inline-menu-button-primary-selected': feed.favorite }" class='inline-menu-button-primary'>
+							<i class='fa fa-heart-o'></i>
+							<span ng-show='!$root.smallDevice'>{{ feed.favorite ? 'Favorited' : 'Favorite' }}</span>
+						</span>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div ng-if='$index && !(($index+1-4)%8) && noFavorites' class='gold-footer thin visible' ng-class="{ 'very-small': $root.smallDevice }">
+			<div class='shadow-dark-top-abs'></div>
+			<i class='fa fa-heart-o very-very-small white middle'></i>
+			<i class='fa fa-heart-o very-very-small white middle'></i>
+			<i class='fa fa-heart-o very-very-small white middle'></i>
+			&nbsp;&nbsp;&nbsp;
+			<span class='thick'>Favoriting</span> feeds makes your Smörgåsbord more delicious.
+			&nbsp;&nbsp;&nbsp;
+			<i class='fa fa-heart-o very-very-small white middle'></i>
+			<i class='fa fa-heart-o very-very-small white middle'></i>
+			<i class='fa fa-heart-o very-very-small white middle'></i>
+			<div class='shadow-dark-bottom-abs'></div>
+		</div>
+		<div ng-if='$index && !(($index+1)%8) && noSnapshots' class='gold-footer thin visible' ng-class="{ 'very-small': $root.smallDevice }">
+			<div class='shadow-dark-top-abs'></div>
+			<i class='fa fa-camera-retro very-very-small white middle'></i>
+			<i class='fa fa-camera-retro very-very-small white middle'></i>
+			<i class='fa fa-camera-retro very-very-small white middle'></i>
+			&nbsp;&nbsp;&nbsp;
+			<span class='thick'>Snapshots</span> help you remember interesting stuff you see.
+			&nbsp;&nbsp;&nbsp;
+			<i class='fa fa-camera-retro very-very-small white middle'></i>
+			<i class='fa fa-camera-retro very-very-small white middle'></i>
+			<i class='fa fa-camera-retro very-very-small white middle'></i>
+			<div class='shadow-dark-bottom-abs'></div>
+		</div>
+	</li>
+	<div ng-show='snapshot' class='snapshot-tool-bar-wrapper fade-out'>
+		<div ng-show='snapshot && !takingSnapshot' class='snapshot-tool-bar'>Frame & click to take a snapshot.<i class='right fa fa-lg fa-times gold-bg-hover fa-line-height-lg' pct-close-snapshot></i></div>
+		<!--<div ng-show='takingSnapshot' class='snapshot-tool-bar'>SAVING SNAPSHOT&nbsp;&nbsp;&nbsp;<span class='white' ng-click='snapshot=false'>HIDE</span></div>-->
+	</div>
+</ul>

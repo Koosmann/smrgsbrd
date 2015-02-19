@@ -1,0 +1,87 @@
+<div id='wrapper' ng-class="{'side-bar': $root.showSidebar}">
+	<%= include header %>
+	<%= include sidebar %>
+	<%= include modal %>
+	<div ng-show='addToList' class='add-to-list-wrapper fade-out' pct-size-to-window pct-add-to-list>
+		<div class='main-content' ng-style="{ 'margin-top': windowHeight/2-133/.55 }" ng-class="{'modal-side-bar': $root.showSidebar}" >
+			<div class='section-header'>
+				<h3 class='pad thin white'>{{ $root.feedToAdd.title }}</h3>
+				<h2 class='pad thin gold'>Add to List</h2>
+				<h4 class='pad thin gray' ng-click='cancelAddToList()'>Cancel</h4>
+			</div>
+			<form name='addToListForm' id='addToListForm' class='center half' ng-submit='saveToList(list)'>
+				<div class='input-group input-inline input-inline-liquid three-quarters left'>
+					<input id='title' name='title' type='text' ng-model='list.title' placeholder='#' required pct-hashtag />
+				</div>
+
+				<input id='submit' name='submit' type='submit' value='SAVE' class='input-inline input-inline-liquid gold-background' pct-validate-form-requirements />
+			</form>
+			<div class="section-header">
+			<h4 ng-bind='error' class='error'></h4>
+			</div>
+		</div>
+	</div>
+	<div>
+
+		<!--<div class='tabs'>
+			<ul>
+				<li ng-repeat='tab in feedTabs' ng-click='tabFeeds(tab.value)' class='tab' ng-class="{ 'tab-highlighted': tab.active }">{{ tab.name }}</li>
+			</ul>
+		</div>-->
+
+		<div id='discover' p-endless-scroll p-scroll-do='loadFeeds' p-scroll-threshold='1000'>
+			<%= include feedsComponent %>
+		</div>
+		<%= include loader %>
+
+		<div ng-show='firstFavorite' class='action-notification-wrapper fade-out'>
+			<div class='action-notification'>
+				<span class='thick medium'>You added your<br />first favorite!</span>
+				<i class='fa fa-heart-o action-icon'></i>
+				<br /><br />
+				<span class='thin'>Adding favorites helps you keep track of the feeds you love.  The fancy ticker pictured here will show if your <a href='' ng-href='/favorites' class='yellow-light'>Favorites</a> have updated recently.</span><br /><br />
+				<img ng-src='/assets/img/ticker.png' width='200' height='200' /><br /><br />
+				<button class='btn btn-block small' ng-click='firstFavorite=false;firstFavoriteTwo=true'>Continue</button>
+			</div>
+		</div>
+		<div ng-show='firstFavoriteTwo' class='action-notification-wrapper fade-out'>
+			<div class='action-notification'>
+				<span class='thick medium'>Stay inspired<br />everyday.</span>
+				<i class='fa fa-check-square-o action-icon'></i>
+				<br /><br />
+				<span class='thin'>Smörgåsbord is a great way to get your morning dose of creativity.</span><br /><br />
+				<span>Drag this link to your bookmarks bar so you can get inspired instantly while you eat breakfast.</span><br /><br />
+				<div class='bookmark-link'>Get Inspired<br/><span class='bookmark-message very-small black' ng-bind='bookmarkMessage'></span><a href='' ng-href='/favorites' target='_blank' class='abs-fill transparent' alt='Get Inspired' pct-bookmark-drag>Get Inspired</a></div>
+				<button class='btn btn-block small' ng-click='firstFavoriteTwo=false'>Done</button>
+			</div>
+		</div>
+		<div ng-show='firstSnapshot' class='action-notification-wrapper fade-out'>
+			<div class='action-notification'>
+				<span class='thick medium'>You took your<br />first snapshot!</span>
+				<i class='fa fa-camera-retro action-icon'></i>
+				<br /><br />
+				<span class='thin'>Snapshots save links to all the great stuff you find.  See all of your snaphots in your <a href='' ng-href='/user/{{ currentUser.username }}' class='yellow-light'>Profile</a></span>.<br /><br />
+				<img ng-src='/assets/img/snapshots.png' width='200' height='200' /><br /><br />
+				<button class='btn btn-block small' ng-click='firstSnapshot=false'>Continue</button>
+			</div>
+		</div>
+
+		<div ng-if='welcome' class='shadow-dark' pct-intro-tour ng-cloak>
+			<div id='introMessage' class='fade-out' ng-bind-html='introMessage'></div>
+			<div ng-if='introStep && !introDone'>
+				<div class='intro-button quarter' ng-click='closeIntro()'><i class='fa fa-times'></i></div>
+				<div id='introNext' class='intro-button quarter' ng-click='introNext()'><i class='fa fa-arrow-right'></i></div>
+				<div ng-show='introStep-1' class='intro-button quarter' ng-click='introPrevious()'><i class='fa fa-arrow-left'></i></div>
+			</div>
+			<div ng-if='!introStep'>
+				<div class='intro-button quarter' ng-click='closeIntro()'><i class='fa fa-times'></i></div>
+				<div class='intro-button quarter' ng-click='introNext()'><i class='fa fa-check'></i></div>
+			</div>
+			<div ng-if='introDone'>
+				<div class='intro-button quarter' ng-click='closeIntro()'><i class='fa fa-times'></i></div>
+				<div class='intro-button half' pct-scroll-to-top ng-click='closeIntro()'>Back to top</div>
+			</div>
+		</div>
+
+	</div>
+</div>

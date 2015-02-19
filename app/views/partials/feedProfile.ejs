@@ -1,0 +1,188 @@
+<div id='wrapper' ng-class="{'side-bar': showSidebar}" pct-scroll-lock>
+	<%= include header %>
+	<%= include sidebar %>
+
+	<div>
+		<div ng-if='feed' class='feed-profile-wrapper'>
+			<div class='feed-profile-header-main' ng-class="{ 'shadow-dark': $root.smallDevice }">
+				<div class='text-center'>
+					<div class='feed-profile-header-title thick'><a href='' ng-href='{{ feed.url }}' target='_blank' class='light pct-feed-link' pct-title-link>{{ feed.title }}</a></div>
+				</div>
+				<!--<div class='half fluid-grid' ng-class="{ 'left': !$root.smallDevice }">
+					<a href='' ng-href='{{ feed.url }}' class='btn btn-yellow-light right shadow-dark pct-feed-link' pct-title-link target='_blank' ng-class="{ 'btn-block': $root.smallDevice, 'btn-wide': !$root.smallDevice }">Go to site</a>
+				</div>-->
+				<!--<input type='text' value="{{ 'http://smrgsbrd.co/' + feed.shortUrl }}" class='right feed-profile-header-page-link' readonly size="{{ 20 + feed.shortUrl.length }}" />-->
+			</div>
+			<div class='feed-profile-header-sub' ng-class="{ 'shadow-da': !$root.smallDevice }">
+				<div ng-show='previousFeed' class='left feed-profile-info feed-profile-header-link feed-profile-nav text-left' ng-class="{ 'half': $root.smallDevice }">
+					<a href='' ng-href='/feed/{{ previousFeed.id }}' class="block-fill ellipsis" title='Portfolio'>
+						PREVIOUS: {{ previousFeed.title }}
+					</a>
+				</div>
+				<div ng-show='nextFeed' class='right feed-profile-info feed-profile-header-link feed-profile-nav text-right' ng-class="{ 'half': $root.smallDevice, 'right': !$root.smallDevice  }">
+					<a href='' ng-href='/feed/{{ nextFeed.id }}' class="block-fill ellipsis" title='Portfolio'>
+						NEXT: {{ nextFeed.title }}
+					</a>
+				</div>
+				<div ng-show='feed.author' class='gray feed-profile-info feed-profile-header-author' ng-class="{ 'very-small': $root.smallDevice }">
+					by {{ feed.author }}
+				</div>
+				<div ng-show='feed.city || feed.state || feed.country' class='gray feed-profile-info feed-profile-header-location' ng-class="{ 'very-small': $root.smallDevice }">
+					<span ng-show='feed.city' class=''>{{ feed.city }}<span ng-show='feed.city && (feed.state || feed.country)' class=''>, </span></span>
+					<span ng-show='feed.state' class=''>{{ feed.state }}<span ng-show='feed.state && feed.country' class=''>, </span></span>
+					<span ng-show='feed.country' class=''>{{ feed.country }}</span>
+				</div>
+				<div ng-show='feed.clicks' class='gray feed-profile-info' ng-class="{ 'very-small': $root.smallDevice }" ng-pluralize count='feed.clicks' when="{ '0': '0 clicks', 'one': '1 click', 'other': '{} clicks' }">
+				</div>
+				<div class='feed-profile-info feed-profile-header-link gold'>
+					<a href='' ng-href='{{ feed.url }}' class="block-fill" target='_blank' title='Go to {{ feed.title }}' pct-title-link>
+						GO TO SITE
+					</a>
+				</div>
+				<div ng-show='feed.twitterUrl' class='feed-profile-info feed-profile-header-link'>
+					<a href='' ng-href='{{ feed.twitterUrl }}' class="block-fill" target='_blank' title='{{ feed.title }} on Twitter'>
+						<i class='fa fa-twitter'></i>
+					</a>
+				</div>
+				<div ng-show='feed.instagramUrl' class='feed-profile-info feed-profile-header-link'>
+					<a href='' ng-href='{{ feed.instagramUrl }}' class="block-fill" target='_blank' title='{{ feed.title }} on Instagram'>
+						<i class='fa fa-instagram'></i>
+					</a>
+				</div>
+				<div ng-show='feed.pinterestUrl' class='feed-profile-info feed-profile-header-link'>
+					<a href='' ng-href='{{ feed.pinterestUrl }}' class="block-fill" target='_blank' title='{{ feed.title }} on Pinterest'>
+						<i class='fa fa-pinterest'></i>
+					</a>
+				</div>
+				<!--<div ng-show='feed.facebookUrl' class='feed-profile-info feed-profile-header-link'>
+					<a href='' ng-href='{{ feed.facebookUrl }}' class="block-fill" target='_blank' title='{{ feed.title }} on Facebook'>
+						<i class='fa fa-facebook'></i>
+					</a>
+				</div>-->
+				<!--<div ng-show='feed.tumblrUrl' class='feed-profile-info feed-profile-header-link'>
+					<a href='' ng-href='{{ feed.tumblrUrl }}' class="block-fill" target='_blank' title='{{ feed.title }} on Tumblr'>
+						<i class='fa fa-tumblr'></i>
+					</a>
+				</div>-->
+				<!--<div ng-show='feed.flickrUrl' class='feed-profile-info feed-profile-header-link'>
+					<a href='' ng-href='{{ feed.flickrUrl }}' class="block-fill" target='_blank' title='{{ feed.title }} on Flickr'>
+						<i class='fa fa-flickr'></i>
+					</a>
+				</div>-->
+				<!--<div ng-show='feed.etsyUrl' class='feed-profile-info feed-profile-header-link'>
+					<a href='' ng-href='{{ feed.etsyUrl }}' class="block-fill" target='_blank' title='{{ feed.title }} on Etsy'>
+						<i class='fa fa-money'></i>
+					</a>
+				</div>-->
+				<div ng-show='feed.storeUrl' class='feed-profile-info feed-profile-header-link'>
+					<a href='' ng-href='{{ feed.storeUrl }}' class="block-fill" target='_blank' title='Store'>
+						visit store
+					</a>
+				</div>
+				<div ng-show='feed.portfolioUrl' class='feed-profile-info feed-profile-header-link'>
+					<a href='' ng-href='{{ feed.portfolioUrl }}' class="block-fill" target='_blank' title='Portfolio'>
+						see portfolio
+					</a>
+				</div>
+				<!--<div ng-show='feed.newsletterSignupUrl' class='feed-profile-info feed-profile-header-link'>
+					<a href='' ng-href='{{ feed.newsletterSignupUrl }}' class="block-fill" target='_blank' title='Newsletter Signup'>
+						SIGN UP FOR NEWSLETTER
+					</a>
+				</div>-->
+			</div>
+			<div class='feed-profile-body'>
+				<!--<div ng-if='recentTweet' class='feed-profile-recent-tweet thin small'>
+					<span class='very-small gold thin'>RECENT TWEET:</span> <span ng-bind-html='recentTweet.text'></span> <span class='very-small gold thin'>{{ recentTweet.created_at|timeAgo }}</span>
+				</div>-->
+				<div ng-if='instagramImages' class='feed-profile-divider'>
+					<span ng-if='instagramImages'>RECENT INSTAGRAM POSTS</span>
+					<span ng-if='instagramImages && recentTweet' class='right'>
+						<span class='very-small gold thin'>RECENT TWEET:</span> <a href='' ng-href='http://www.twitter.com/{{ feed.twitterUsername }}'><span ng-bind-html='recentTweet.text'></span></a> <span class='very-small gold thin'>{{ recentTweet.created_at|timeAgo }}</span>
+					</span>
+				</div>
+				<div ng-if='instagramImages' pct-image-rows='200' pct-image-rows-max='2' pct-image-rows-images='instagramImages' pct-image-rows-type='instagram'>
+					<div class="feed-profile-image-row" ng-repeat="row in rows" pct-image-row-height='200'>
+						<div class='feed-profile-image feed-image-wrapper' ng-repeat='image in row'>
+							<div class="feed-profile-image feed-image-wrapper" pct-hover='image' pct-hover-param='showImage'>
+								<div ng-if='!image.dateMarker && !image.titleMarker' ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+									<div class='share-on-list'>
+										<%= include shareButtons %>
+									</div>
+									<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+										<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+									</a>
+								</div>
+								<img ng-if='!image.dateMarker && !image.titleMarker' class='left' ng-src='{{ image.images.low_resolution.url }}' width='200' height='200' pct-image-dimensions pct-image-dimensions-size='200' />
+								<div ng-if='image.dateMarker' class='feed-profile-date-marker' pct-div-dimensions>
+									<div class='rotate feed-profile-date-marker-text'>{{ image.dateSection }}</div>
+								</div>
+
+								<div ng-if='image.titleMarker' class='feed-profile-title-marker feed-profile-title-marker-small' pct-div-dimensions='liquid'>
+									RECENT<br />INSTAGRAM<br />POSTS
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='feed-profile-divider'>
+					BLOG TIMELINE
+					<span ng-if='!instagramImages && recentTweet' class='right'>
+						<span class='very-small gold thin'>RECENT TWEET:</span> <span ng-bind-html='recentTweet.text'></span> <span class='very-small gold thin'>{{ recentTweet.created_at|timeAgo }}</span>
+					</span>
+				</div>
+				<div pct-image-rows='300' pct-image-rows-images='images'>
+					<div class="feed-profile-image-row" ng-repeat="row in rows" pct-image-row-height='300'>
+				       	<div class='feed-profile-image feed-image-wrapper' ng-repeat='image in row'>
+					       	<div ng-if='!image.isMultiple && !image.dateMarker && !image.titleMarker' class="feed-profile-image feed-image-wrapper" pct-hover='image' pct-hover-param='showImage'>
+					        	<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+									<div class='share-on-list'>
+										<%= include shareButtons %>
+									</div>
+									<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+										<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+									</a>
+								</div>
+					        	<img ng-src="{{ !imageError && (image.large2xThumbnail.url || image.largeThumbnail.url || image.smallThumbnail.url) || image.url }}" pct-image-dimensions pct-image-dimensions-size='300' pct-image-error />
+					       	</div>
+					       	<div ng-if='image.isMultiple' class="feed-profile-image feed-profile-image-block feed-image-wrapper" pct-hover='image' pct-hover-param='showImage0'>
+					        	<div ng-show='image.showImage0 && !scrolling' class='hover-menu-wrapper fade-out'>
+									<div class='share-on-list'>
+										<%= include shareButtons %>
+									</div>
+									<a href='' ng-href='{{ image.images[0].entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+										<span class='image-source'><span class='black'>{{ image.images[0].entryPublishDate|timeAgo }}</span> {{ image.images[0].entryTitle }}</span>
+									</a>
+								</div>
+					        	<img ng-src="{{ !imageError && (image.images[0].large2xThumbnail.url || image.images[0].largeThumbnail.url || image.images[0].smallThumbnail.url) || image.images[0].url }}" pct-image-dimensions='small' pct-image-dimensions-index='0' pct-image-dimensions-size='150' pct-image-error />
+					       	</div>
+					       	<div ng-if='image.isMultiple' class="feed-profile-image feed-profile-image-block feed-image-wrapper" pct-hover='image' pct-hover-param='showImage1'>
+					        	<div ng-show='image.showImage1 && !scrolling' class='hover-menu-wrapper fade-out'>
+									<div class='share-on-list'>
+										<%= include shareButtons %>
+									</div>
+									<a href='' ng-href='{{ image.images[1].entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+										<span class='image-source'><span class='black'>{{ image.images[1].entryPublishDate|timeAgo }}</span> {{ image.images[1].entryTitle }}</span>
+									</a>
+								</div>
+					        	<img ng-src="{{ !imageError && (image.images[1].large2xThumbnail.url || image.images[1].largeThumbnail.url || image.images[1].smallThumbnail.url) || image.images[1].url }}" pct-image-dimensions='small' pct-image-dimensions-index='1' pct-image-dimensions-size='150' pct-image-error />
+					       	</div>
+					       	<div ng-if='image.dateMarker && !image.titleMarker' class='feed-profile-date-marker' pct-div-dimensions>
+								<div class='rotate feed-profile-date-marker-text'>{{ image.dateSection }}</div>
+							</div>
+							<div ng-if='image.titleMarker' class='feed-profile-title-marker' pct-div-dimensions='liquid'>
+									BLOG<br />TIMELNE
+								</div>
+					    </div>
+					</div>
+			    </div>
+			</div>
+			<div ng-if='feed && nextFeed' class='feed-profile-footer'>
+				<a href='' ng-href='/feed/{{ nextFeed.id }}' class='block-fill feed-profile-next-link'>
+					Next: <span class='thick'>{{ nextFeed.title }}</span>
+				</a>
+			</div>
+		</div>
+
+	</div>
+
+</div>

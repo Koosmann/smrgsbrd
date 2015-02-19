@@ -1,0 +1,120 @@
+<h1>P</h1>
+<p class='lead'>Register to access your resource for all cats.</p>
+
+<form name="registerForm" ng-submit='register(user)' novalidate>
+	
+	<!-- FIRST NAME -->
+	<div class="control-group" ng-class='{error: (registerForm.$dirty && registerForm.firstName.$dirty && registerForm.firstName.$invalid && registerForm.firstName.$error.required), success: registerForm.firstName.$dirty && !registerForm.firstName.$error.required}'>
+		<div class="controls">
+			<input id='firstName' name='firstName' type='text' placeholder='First Name' ng-model='user.firstName' required />
+			
+			<!-- MESSAGES -->
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.firstName.$dirty && registerForm.firstName.$error.required">Please enter your first name.</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.firstName.$pristine && registerForm.firstName.$valid">:)</span>
+		</div>	
+	</div>
+
+	<!-- LAST NAME -->
+	<div class="control-group" ng-class='{error: (registerForm.$dirty && registerForm.lastName.$dirty && registerForm.lastName.$invalid && registerForm.firstName.$error.required), success: registerForm.lastName.$dirty && !registerForm.lastName.$error.required}'>
+		<div class="controls">
+			<input id='lastName' name='lastName' type='text' placeholder='Last Name' ng-model='user.lastName' required />
+			
+			<!-- MESSAGES -->
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.lastName.$dirty && registerForm.lastName.$error.required">Please enter your last name.</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.lastName.$pristine && registerForm.lastName.$valid">:)</span>
+	</div>
+
+	<!-- USERNAME -->
+	<div class="control-group" ng-class='{error: (registerForm.$dirty && registerForm.username.$dirty && registerForm.username.$invalid && registerForm.username.$error.required) || (registerForm.$dirty && registerForm.username.$pristine && registerForm.username.$error.validateUsername), success: registerForm.$dirty && registerForm.username.$pristine && registerForm.username.$valid && !registerForm.username.$error.validateUsername}'>
+		<div class="controls">
+			<input id='name' name='username' type='text' placeholder='Username' ng-model='user.name' required validate-username />
+			
+			<!-- MESSAGES -->
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.username.$dirty && registerForm.username.$error.required">Please enter a username.</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.username.$pristine && registerForm.username.$error.validateUsername">Username already taken.</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.username.$pristine && registerForm.username.$valid && !registerForm.username.$error.validateUsername">:)</span>
+		</div>	
+	</div>
+	
+	<!-- EMAIL -->
+	<div class="control-group" ng-class='{error: (registerForm.$dirty && registerForm.email.$dirty && registerForm.email.$invalid) || (registerForm.$dirty && registerForm.email.$pristine && registerForm.email.$error.validateEmail), success: registerForm.$dirty && registerForm.email.$pristine && registerForm.email.$valid && !registerForm.email.$error.validateEmail}'>
+		<div class="controls">
+			<input id='email' name='email' type='email' placeholder='Email' ng-model='user.email' required validate-email />
+			
+			<!-- MESSAGES -->
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.email.$dirty && registerForm.email.$invalid && !registerForm.email.$error.validateEmail">Please enter a valid email.</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.email.$pristine && registerForm.email.$error.validateEmail">This email has an account already.</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.email.$pristine && registerForm.email.$valid && !registerForm.email.$error.validateEmail">:)</span>
+		</div>	
+	</div>
+	
+	<!-- PASSWORD -->
+	<div class="control-group" ng-class='{error: registerForm.password.$dirty && registerForm.password.$invalid, success: registerForm.password.$dirty && registerForm.password.$valid}' >
+		<div class="controls">
+			<input id='password' name='password' type='password' placeholder='Password' ng-model='user.password' required />
+			
+			<!-- MESSAGES -->
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.password.$dirty && registerForm.password.$valid">:)</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.password.$dirty && registerForm.password.$invalid && registerForm.password.$error.required">Please enter a password.</span>
+		</div>	
+	</div>
+	
+	<!-- REPEAT PASSWORD -->
+	<div class="control-group" ng-class='{error: registerForm.checkPassword.$dirty && registerForm.checkPassword.$invalid, success: registerForm.checkPassword.$dirty && registerForm.checkPassword.$valid}' >
+		<div class="controls">
+			<input id='checkPassword' name='checkPassword' type='password' placeholder='Re-enter Password' ng-model='user.checkPassword' ui-validate-equals='user.password' required />
+			
+			<!-- MESSAGES -->
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.checkPassword.$dirty && registerForm.checkPassword.$valid">:)</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.checkPassword.$dirty && registerForm.checkPassword.$error.required">Please enter password again.</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.checkPassword.$dirty && registerForm.checkPassword.$error.equal && !registerForm.checkPassword.$error.required">Passwords must match.</span>
+		</div>	
+	</div>
+	
+	<!-- REPEAT PASSWORD -->
+	<div class="control-group" ng-class='{error: registerForm.gender.$dirty && registerForm.gender.$invalid, success: registerForm.gender.$dirty && registerForm.gender.$valid}' >
+		<div class="controls">	
+			<label class="radio inline">
+				Gender:
+			</label>
+			
+			<label class="radio inline">
+				<input ng-model="user.gender" value="male" type="radio" name="gender" required>
+				Male
+			</label>
+			
+			<label class="radio inline">
+				<input ng-model="user.gender" value="female" type="radio" name="gender" required>
+				Female
+			</label>
+		
+			<!-- MESSAGES -->
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.gender.$dirty && registerForm.gender.$invalid">Please enter your gender (just so we know how to address you!).</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && registerForm.gender.$dirty && registerForm.gender.$valid">:)</span>
+		</div>	
+	</div>
+
+	<!-- BIRTHDAY MONTH -->
+	<div ng-form name='age' class="control-group" ng-class='{error: (registerForm.$dirty && age.month.$dirty && age.month.$error.required && age.day.$dirty && age.day.$error.required && age.year.$dirty && age.year.$error.required) || (!age.month.$dirty && !age.day.$dirty && !age.year.$dirty && !age.$error.validateAge), success: age.month.$dirty && !age.month.$error.required && age.day.$dirty && !age.day.$error.required && age.year.$dirty && !age.year.$error.required && !age.$error.validateAge}' required ui-validate-age>
+		<div class="controls">
+			<input id='month' name='month' type='text' placeholder='MM' ng-model='user.birthday.month' maxlength='2' required ui-validate-month />
+
+	<!-- BIRTHDAY DAY -->
+			<input id='day' name='day' type='text' placeholder='DD' ng-model='user.birthday.day' maxlength='2' required ui-validate-day />
+
+
+	<!-- BIRTHDAY YEAR -->
+			<input id='year' name='year' type='text' placeholder='YYYY' ng-model='user.birthday.year' maxlength='4' required ui-validate-year />
+			
+			<!-- MESSAGES -->
+			<span class="help-inline" ng-show="registerForm.$dirty && age.$dirty && (age.month.$error.validateMonth || age.day.$error.validateDay || age.year.$error.validateYear || age.month.$error.required || age.day.$error.required || age.year.$error.required) && !age.$error.validateAge">Please enter your birthday.</span>
+			<span class="help-inline" ng-show="registerForm.$dirty && age.month.$dirty && age.day.$dirty && age.year.$dirty && age.month.$valid && age.day.$valid && age.year.$valid && !age.$error.validateAge">:)</span>
+			<span class="help-inline" ng-show="(age.month.$dirty && age.day.$dirty && age.year.$dirty) && age.$error.validateAge">Must be at least 13 years old to register.</span>
+
+		</div>	
+	</div>
+	
+	<button href='' type='submit' ui-validate-form-requirements>Register</button>
+</form>
+
+<h5>Already have an account? <a href='/login'>Login here!</a></h5>

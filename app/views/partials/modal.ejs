@@ -1,0 +1,6 @@
+<div ng-show='alert.show' class='alert-box-bg fade-out'>
+	<div class='alert-box-wrapper' pct-vertically-center='alert.message' pct-click-away-to-close='alert'>
+		<i class='fa fa-times alert-close' ng-click='alert.show=false'></i>
+		<div class='alert-box' ng-bind-html='alert.message'></div>
+	</div>
+</div>

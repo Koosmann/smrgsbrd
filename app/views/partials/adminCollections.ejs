@@ -1,0 +1,208 @@
+<h1>Collections</h1>
+<p>Your resource for all collection admin.</p>
+
+<a ng-click="openAddModal()" role="button" class="btn btn-primary" data-toggle="modal">Add Collection</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Cover</th>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th>Date Added</th>
+            <th># of Feeds</th>
+            <th>Edit</th>
+            <th>Publish</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="collection in collections">
+            <td>{{ $index + 1 }}</td>
+            <td><img ng-src='{{ collection.cover.url }}' width='50' class="img-thumbnail" /></td>
+            <td>{{ collection.id }}</td>
+            <td>{{ collection.title }}</td>
+            <td>{{ collection.authorFirstName + ' ' + collection.authorLastName }}</td>
+            <td>{{ collection.description }}</td>
+            <td>{{ collection.dateAdded.toString() }}</td>
+            <td>{{ collection.feeds.length }}</td>
+            <td><a ng-href='' ng-click='openEditModal(collection)' class="btn btn-default" data-toggle="modal"><i class="icon-edit"></i></a></td>
+            <td><a ng-click="publish(collection.id)" role="button" class="btn btn-primary" ng-disabled='collection.published'>{{ collection.published ? 'Published' : 'Publish' }}</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<a ng-click="openAddModal()" role="button" class="btn btn-primary" data-toggle="modal">Add Collection</a>
+
+<h5>Not {{ currentUser.firstName }}? <a href='' ng-click='logout()'>Logout</a></h5>
+
+<h6><a href p-external-href='/'>Cats</a></h6>
+
+<!-- Modals -->
+<!-- Add Feed Modal -->
+<div id="addCollection" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addCollection" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Add Collection</h3>
+            </div>
+            <form name='addCollection' class="form-horizontal" ng-submit='addNewCollection(collection)' role="form" novalidate>
+                <div class="modal-body">
+
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label" for="title" >Title</label>
+                        <div class="col-sm-8">
+                            <input name='title' class="form-control" type="text" id="title" placeholder="Title" ng-model='collection.title' required>
+                            <span class="help-block" ng-show="addCollection.$dirty && addCollection.title.$dirty && addCollection.title.$error.required">Please enter a feed title.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="author">Author (username)</label>
+                        <div class="col-sm-8">
+                            <input name='author' class="form-control" type="text" id="author" placeholder="Author" ng-model='collection.author' typeahead="username for username in getUsernames($viewValue) | filter:$viewValue" typeahead-editable='false' required>
+                            <span class="help-block" ng-show="addCollection.$dirty && addCollection.author.$dirty && addCollection.author.$invalid">Please enter the author's username.<br />(note: user must already exist.)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="description">Description</label>
+                        <div class="col-sm-8">
+                            <textarea name='description' rows="5" class="form-control" id="description" placeholder="Add description here..." ng-model='collection.description' required></textarea>
+                            <span class="help-block" ng-show="addCollection.$dirty && addCollection.description.$dirty && addCollection.description.$error.required">Please enter the collection's description.</span>
+                        </div>
+                    </div>
+
+                    <ng-form ng-repeat='feed in collection.feeds' name='addCollectionFeed'>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="{{ 'feedTitle' + $index }}">Feed {{ $index + 1 }}</label>
+                            <div class="col-sm-6">
+                                <input name="feedTitle" class="form-control" type="text" id="{{ 'feedTitle' + $index }}" placeholder="Feed Title" ng-model='collection.feeds[$index].feedId' typeahead="title for title in feedTitles | filter:$viewValue" typeahead-validation='true' pct-feed-id-to-title required>
+                                <span class="help-block" ng-show="!firstTry && addCollectionFeed.$dirty && (addCollectionFeed.feedTitle.$error.required || addCollectionFeed.feedTitle.$error.validFeed)">Please enter a feed title.<br />(note: user must already exist.)</span>
+                            </div>
+                            <div class='col-sm-2'>
+                                <button type='button' class='btn pull-right' ng-click='removeFeedFromCollection($index)'><i class='fa fa-times'></i></button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <textarea name='feedComment' rows="2" class="form-control" id="{{ 'feedComment' + $index }}" placeholder="Add comment here..." ng-model='collection.feeds[$index].comment' required></textarea>
+                                <span class="help-block" ng-show="((!firstTry && addCollectionFeed.$dirty) || (addCollectionFeed.$dirty && editCollectionFeed.feedComment.$dirty)) && addCollectionFeed.feedComment.$error.required">Please enter the feed's comment.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <button type="button" class="btn btn-xs btn-default pull-right" ng-click='moveFeedUp($index)'><i class='fa fa-arrow-up'></i></button>
+                                <button type="button" class="btn btn-xs btn-default pull-right" ng-click='moveFeedDown($index)'><i class='fa fa-arrow-down'></i></button>
+                            </div>
+                        </div>
+                    </ng-form>
+
+                    <div class="form-group">
+                        <div class='col-sm-6 col-sm-offset-3'>
+                            <button type="button" class="btn btn-block" ng-click='addFeedToCollection()'>Add a feed</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+                    <button type="submit" class="btn btn-primary" pct-validate-form-requirements>Add Collection</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Collection Modal -->
+<div id="editCollection" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editCollection" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Edit Collection</h3>
+            </div>
+            <form name='editCollection' class="form-horizontal" ng-submit='saveCollection(collection)' role="form" novalidate>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="image">Cover</label>
+                        <div class="col-sm-8">
+                            <img ng-src='{{ collection.cover.url }}' width='140' class="img-thumbnail">
+                             <a href="" ng-click='uploadImage(collection)' class="btn btn-primary">Upload Image</a>
+                            <input name='image' id='avatarUpload' type='file' file-upload />
+                        </div>
+                    </div>
+
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label" for="title" >Title</label>
+                        <div class="col-sm-8">
+                            <input name='title' class="form-control" type="text" id="title" placeholder="Title" ng-model='collection.title' required>
+                            <span class="help-block" ng-show="editCollection.$dirty && editCollection.title.$dirty && editCollection.title.$error.required">Please enter a feed title.</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="author">Author (username)</label>
+                        <div class="col-sm-8">
+                            <input name='author' class="form-control" type="text" id="author" placeholder="Author" ng-model='collection.author' typeahead="username for username in getUsernames($viewValue) | filter:$viewValue" typeahead-editable='false' required>
+                            <span class="help-block" ng-show="editCollection.$dirty && editCollection.author.$dirty && editCollection.author.$invalid">Please enter the author's username.<br />(note: user must already exist.)</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="description">Description</label>
+                        <div class="col-sm-8">
+                            <textarea name='description' rows="5" class="form-control" id="description" placeholder="Add description here..." ng-model='collection.description' required></textarea>
+                            <span class="help-block" ng-show="editCollection.$dirty && editCollection.description.$dirty && editCollection.description.$error.required">Please enter the collection's description.</span>
+                        </div>
+                    </div>
+
+                    <ng-form ng-repeat='feed in collection.feeds' name='editCollectionFeed'>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="{{ 'feedTitle' + $index }}">Feed {{ $index + 1 }}</label>
+                            <div class="col-sm-6">
+                                <input name="feedTitle" class="form-control" type="text" id="{{ 'feedTitle' + $index }}" placeholder="Feed Title" ng-model='collection.feeds[$index].feedId' typeahead="title for title in feedTitles | filter:$viewValue" typeahead-validation='true' pct-feed-id-to-title required>
+                                <span class="help-block" ng-show="!firstTry && editCollectionFeed.$dirty && (editCollectionFeed.feedTitle.$error.required || editCollectionFeed.feedTitle.$error.validFeed)">Please enter a feed title.<br />(note: user must already exist.)</span>
+                            </div>
+                            <div class='col-sm-2'>
+                                <button type='button' class='btn pull-right' ng-click='removeFeedFromCollection($index)'><i class='fa fa-times'></i></button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <textarea name='feedComment' rows="2" class="form-control" id="{{ 'feedComment' + $index }}" placeholder="Add comment here..." ng-model='collection.feeds[$index].comment' required></textarea>
+                                <span class="help-block" ng-show="((!firstTry && editCollectionFeed.$dirty) || (editCollectionFeed.$dirty && editCollectionFeed.feedComment.$dirty)) && editCollectionFeed.feedComment.$error.required">Please enter the feed's comment.</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-6 col-sm-offset-3">
+                                <button type="button" class="btn btn-xs btn-default pull-right" ng-click='moveFeedUp($index)'><i class='fa fa-arrow-up'></i></button>
+                                <button type="button" class="btn btn-xs btn-default pull-right" ng-click='moveFeedDown($index)'><i class='fa fa-arrow-down'></i></button>
+                            </div>
+                        </div>
+                    </ng-form>
+
+                    <div class="form-group">
+                        <div class='col-sm-6 col-sm-offset-3'>
+                            <button type="button" class="btn btn-block" ng-click='addFeedToCollection()'>Add a feed</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+                    <button type="submit" class="btn btn-primary" pct-validate-form-requirements>Save Collection</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

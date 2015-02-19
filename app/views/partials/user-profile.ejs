@@ -1,0 +1,58 @@
+<div id='wrapper' ng-class="{'side-bar': showSidebar}">
+	<%= include header %>
+	<%= include sidebar %>
+
+	<div>
+		<div id='userProfile'>
+			<div class='user-profile-header-wrapper center'>
+				<div class='user-profile-header shadow'>
+					<div class=''>
+						<div class='user-profile-avatar user-profile-square-left'>
+							<img ng-src='{{ user.avatar }}' class='left' />
+						</div>
+						<div class='user-profile-box'>
+							<span class='user-profile-name'>{{ user.firstName + " " + user.lastName }}</span><br />
+							<span class='user-profile-bio small'>{{ user.bio }}</span>
+						</div>
+					</div>
+					<div class=''>
+						<div ng-if='currentUserProfile && user.hiddenFeeds.length' class='user-profile-square user-profile-square-right' ng-click="changeSection('hidden')" ng-class="{ 'current-tab': section=='hidden' }">
+							<span>
+								<span class='main-number'>{{ user.hiddenFeeds.length || 0 }}</span><br />
+								<span class='main-number-label' ng-pluralize count='user.hiddenFeeds.length' when="{ '0': 'hidden', 'one': 'hidden', 'other': 'hidden' }"></span><br/>
+								<span class='very-small gray'>(not public)</span>
+							</span>
+						</div>
+						<div class='user-profile-square user-profile-square-right' ng-click="changeSection('favorites')" ng-class="{ 'current-tab': section=='favorites' }">
+							<span>
+								<span class='main-number'>{{ user.favoriteFeeds.length || 0 }}</span><br />
+								<span class='main-number-label' ng-pluralize count='user.favoriteFeeds.length' when="{ '0': 'favorites', 'one': 'favorite', 'other': 'favorites' }"></span>
+							</span>
+						</div>
+						<div class='user-profile-square user-profile-square-right' ng-click="changeSection('snapshots')" ng-class="{ 'current-tab': section=='snapshots' }">
+							<span>
+								<span class='main-number'>{{ snapshots.length }}</span><br />
+								<span class='main-number-label' ng-pluralize count='snapshots.length' when="{ '0': 'snapshots', 'one': 'snapshot', 'other': 'snapshots' }"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-switch on='section'>
+				<div ng-switch-when='snapshots'>
+					<div ng-if='placeholder' class='placeholder'>
+						<h1>{{ placeholder.title }}</h1>
+						<h4>{{ placeholder.message }}</h4>
+					</div>
+					<%= include snapshotsComponent %>
+				</div>
+				<div id='discover' p-endless-scroll p-scroll-do='loadFeeds' p-scroll-threshold='1000' ng-switch-when='favorites'>
+					<%= include feedsComponent %>
+				</div>
+				<div id='discover' p-endless-scroll p-scroll-do='loadFeeds' p-scroll-threshold='1000' ng-switch-when='hidden'>
+					<%= include feedsComponent %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

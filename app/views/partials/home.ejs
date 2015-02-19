@@ -1,0 +1,211 @@
+<div id='wrapper' ng-class="{'side-bar': showSidebar}">
+	<%= include header %>
+	<%= include sidebar %>
+	<div id='homeIntro'>
+
+	<div class='header-wrapper'>
+		<div class='super-h1'>CAUTION: DISCOVERIES BELOW!</div>
+		<h4>30% of the blogs in our library have posted new content in the last 24 hours.</h4>
+	</div>
+	<div class='header-wrapper'>
+		<div class='super-h1-outline'></div>
+	</div>
+
+		<!-- INTRO FRAMES -->
+		<div class='centered-anchor'><img pct-image-cloak src='/assets/img/frames-intro.png' class='frames-home' width='1200' /></div>
+	</div>
+	<div id='featuredCollection'>
+	
+		<div class='featured-collection-description-wrapper'>
+			<div class='featured-collection-description text-center'>
+				<span>The Staff Recommends:</span>
+				<h3>{{ collections[0].authorFirstName + " " + collections[0].authorLastName + ": " + collections[0].title }}</h3>
+			</div>
+			<div class='featured-collection-description-bg'></div>
+		</div>
+
+		<div class='cover-bg'>
+			<img ng-src='{{ collections[0].cover.url }}' />
+		</div>
+
+		<div class='collection-wrapper'>
+			<div ng-repeat='collection in collections.slice(0, 1)' class='collection-box'>
+				<a href='' ng-href='/collection/{{ collection.id }}'>
+					<div class='collection-cover'>
+						<div class='collection-cover-image'>
+							<div class='collection-badge'></div>
+						</div>
+						<div class='collection-cover-image-previews'>
+							<div class='feed-images-small' pct-center='340'>
+								<img pct-image-cloak ng-repeat='image in collection.imagePreview' ng-src='{{ image.largeThumbnail.url || image.url }}' height='75' width='{{ image.smallThumbnail.width/2 }}' />
+							</div>
+							<div class='feed-images-small' pct-center='340'>
+								<img pct-image-cloak ng-repeat='image in collection.imagePreview2' ng-src='{{ image.smallThumbnail.url || image.url }}' height='75' width='{{ image.smallThumbnail.width/2 }}' />
+							</div>
+							<div class='feed-images-small' pct-center='340'>
+								<img pct-image-cloak ng-repeat='image in collection.imagePreview3' ng-src='{{ image.smallThumbnail.url || image.url }}' height='75' width='{{ image.smallThumbnail.width/2 }}' />
+							</div>
+						</div>
+					</div>
+				</a>
+				<div class='collection-details'>
+					<div class='collection-info'>
+						<a href='' ng-href='/collection/{{ collection.id }}' class='light'><h3 class='collection-title'>{{ collection.title }}</h3></a>
+						<p class='collection-description' >{{ collection.description|previewText:90 }}</p>
+					</div>
+					<div class='collection-author'>
+						<div class='collection-author-avatar'><img ng-src='{{ collection.authorAvatar }}' /></div>
+						<div class='collection-author-name'>{{ collection.authorFirstName + ' ' + collection.authorLastName }}</div>
+						<p class='collection-author-bio gray'>{{ collection.authorBio }}</p>
+					</div>
+				</div>
+				<div class='shadow-horizontal-bottom'></div>
+			</div>
+		</div>
+	</div>
+	<div id='featuredCollections'>
+		<div class='section-wrapper'>
+			<div class='section-header'>
+				<h3>More Collections We Love</h3>
+			</div>
+			<div ng-repeat='collection in collections' class='collection-box'>
+					<a href='' ng-href='/collection/{{ collection.id }}'>
+						<div class='collection-cover'>
+							<div class='collection-cover-image'>
+								<img pct-image-aspect ng-src='{{ collection.cover.url }}' ng-class="{'collection-cover-wide': landscape, 'collection-cover-tall': portrait }" />
+								<div class='collection-badge'></div>
+							</div>
+							<div class='collection-cover-image-previews'>
+								<div class='feed-images-small' pct-center='340'>
+									<img pct-image-cloak ng-repeat='image in collection.imagePreview' ng-src='{{ image.largeThumbnail.url || image.url }}' height='75' width='{{ image.smallThumbnail.width/2 }}' />
+								</div>
+								<div class='feed-images-small' pct-center='340'>
+									<img pct-image-cloak ng-repeat='image in collection.imagePreview2' ng-src='{{ image.smallThumbnail.url || image.url }}' height='75' width='{{ image.smallThumbnail.width/2 }}' />
+								</div>
+								<div class='feed-images-small' pct-center='340'>
+									<img pct-image-cloak ng-repeat='image in collection.imagePreview3' ng-src='{{ image.smallThumbnail.url || image.url }}' height='75' width='{{ image.smallThumbnail.width/2 }}' />
+								</div>
+							</div>
+						</div>
+					</a>
+					<div class='collection-details'>
+						<div class='collection-info'>
+							<a href='' ng-href='/collection/{{ collection.id }}' class='light'><h3 class='collection-title'>{{ collection.title }}</h3></a>
+							<p class='collection-description' >{{ collection.description|previewText:90 }}</p>
+						</div>
+						<div class='collection-author'>
+							<div class='collection-author-avatar'><img ng-src='{{ collection.authorAvatar }}' /></div>
+							<div class='collection-author-name'>{{ collection.authorFirstName + ' ' + collection.authorLastName }}</div>
+							<p class='collection-author-bio gray'>{{ collection.authorBio }}</p>
+						</div>
+					</div>
+					<div class='shadow-horizontal-bottom'></div>
+				</div>
+			</div>
+			<a href='' ng-href='/collections' class='block-link centered-block-link'>
+				See all collections
+				<div class='shadow-horizontal-bottom'></div>
+			</a>
+		</div>
+	</div>
+	<div id='popularFeeds'>
+		<div class='section-wrapper'>
+			<div class='section-header'>
+				<h3>Popular Blogs Right Now</h3>
+			</div>
+			<ul id='feeds' pct-scroll-lock>
+				<li ng-repeat='feed in feeds'>
+					<div class='feed-box-liquid'>
+						<div class='feed-images' ng-mouseover='feed.showMenu=true' ng-mouseleave='feed.showMenu=false' pct-countdown='feed.asterisked.dateAdded'>
+							<div ng-show='feed.showMenu && !scrolling' class='hover-menu-wrapper fade-out'>
+								<div class='hover-menu' ng-class="{'hover-menu-short': !feed.topHalfPercentile}">
+									<a href='' ng-href='{{ feed.url }}' class='button-rectangle-light' target='_blank'>
+										<i class='fa fa-3x fa-eye'></i><br />GO TO SITE
+										<div class='shadow-horizontal-bottom-large shadow-border-bottom-large shadow-dark'></div>
+									</a>
+									<button href='' ng-href='{{ feed.url }}' ng-class="{ 'button-rectangle-light': !feed.asterisked, 'button-rectangle-dark-pressed': feed.asterisked }" pct-vote>
+										<span ng-if='!feed.asterisked'>
+											<i class='fa fa-2x fa-upload'></i><br />VOTE IT UP
+										</span>
+										<span ng-if='feed.asterisked'>
+											<i class='fa fa-2x fa-clock-o'></i><br />
+											<span class='countdown-bg'>
+												<span class='countdown-bar' ng-style="feed.asterisked.countdown"></span>
+											</span>
+										</span>
+										<div class='shadow-horizontal-bottom-large shadow-border-bottom-large shadow-dark'></div>
+									</button>
+								</div>
+								<div class='gold-backdrop'></div>
+							</div>
+							<div ng-if='feed.topHalfPercentile'>
+								<div ng-if='feed.longLargeImagePreview'>
+									<div class='feed-images-small'>
+										<img pct-image-cloak ng-repeat='image in feed.longLargeImagePreview' ng-src='{{ image.large2xThumbnail.url || image.url }}' height='300' width='{{ image.largeThumbnail.width }}' />
+									</div>
+									<div class='feed-images-small'>
+										<img pct-image-cloak ng-repeat='image in feed.longLargeImagePreview2' ng-src='{{ image.largeThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width }}' />
+									</div>
+								</div>
+								<div ng-if='!feed.longLargeImagePreview'>
+									<div class='feed-images-small'>
+										<img pct-image-cloak ng-repeat='image in feed.longSmallImagePreview' ng-src='{{ image.largeThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width }}' />
+									</div>
+									<div ng-if='feed.longSmallImagePreview2' class='feed-images-small'>
+										<img pct-image-cloak ng-repeat='image in feed.longSmallImagePreview2' ng-src='{{ image.largeThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width }}' />
+									</div>
+									<div ng-if='feed.longSmallImagePreview3' class='feed-images-small'>
+										<img pct-image-cloak ng-repeat='image in feed.longSmallImagePreview3' ng-src='{{ image.largeThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width }}' />
+									</div>
+								</div>
+							</div>
+							<div ng-if='!feed.topHalfPercentile'>
+								<div class='feed-images-small'>
+									<img pct-image-cloak ng-repeat='image in feed.longSmallImagePreview' ng-src='{{ image.largeThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width }}' />
+								</div>
+							</div>
+						</div>
+						<div class='feed-info-large'>
+							<i ng-show='feed.asterisked' class='fa fa-asterisk gold'></i>&nbsp;
+							<a href='{{ feed.url }}' class='feed-title light' target='_blank'>{{ feed.title }}</a>
+							<span class='feed-location'>
+								<span ng-show='feed.city' class='detail'>{{ feed.city }}<span ng-show='feed.city && (feed.state || feed.country)' class='detail'>, </span></span>
+								<span ng-show='feed.state' class='detail'>{{ feed.state }}<span ng-show='feed.state && feed.country' class='detail'>, </span></span>
+								<span ng-show='feed.country' class='detail'>{{ feed.country }}</span>
+								&nbsp;
+							</span>
+							<i ng-show='feed.comments' class='fa fa-quote-right right button-small-round' ng-class="{'button-light': !showComments, 'button-dark': showComments}" ng-click='showComments=!showComments'></i>
+						</div>
+						<div class='shadow-horizontal-bottom'></div>
+					</div>
+					<div style='overflow:hidden;'>
+						<ul ng-show='showComments' class='comments fade'>
+							<li ng-repeat='comment in feed.comments' class='text-right'r>
+								<blockquote>{{ comment.body }}</blockquote>
+								<a href='' ng-href='/collection/{{ comment.collectionId }}' class='light'>
+									<small><img ng-src='{{ comment.authorAvatar }}' class='small-avatar' />&nbsp;&nbsp;{{ comment.authorFirstName + " " + comment.authorLastName }}, <cite>from {{ comment.collectionTitle }}</cite></small>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+			<a href='' ng-href='/discover' class='block-link centered-block-link'>
+				See all updated blogs
+				<div class='shadow-horizontal-bottom'></div>
+			</a>
+		</div>
+	</div>
+	<div id='newlyAdded'>
+		<div class='section-wrapper'>
+			<div class='section-header'>
+				<h3>Newly Added!</h3>
+			</div>
+			
+			<a href='' ng-href='/directory' class='block-link centered-block-link'>
+				See the library of blogs
+				<div class='shadow-horizontal-bottom'></div>
+			</a>
+		</div>
+	</div>
+</div>

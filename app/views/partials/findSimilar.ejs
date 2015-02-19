@@ -1,0 +1,11 @@
+<div id='wrapper' ng-class="{'side-bar': showSidebar}">
+	<%= include header %>
+	<%= include sidebar %>
+	<div>
+		<div id='discover' p-endless-scroll p-scroll-do='loadFeeds' p-scroll-threshold='1000'>
+			<%= include feedsComponent %>
+		</div>
+
+		<%= include loader %>
+	</div>
+</div>

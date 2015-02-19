@@ -1,0 +1,102 @@
+<div id='wrapper' ng-class="{'side-bar': showSidebar}">
+	<%= include header %>
+	<%= include sidebar %>
+	
+	<div>
+		<div id='account' class='large-form-wrapper center form-light row-fluid'>
+			<div class="col-sm-5">
+	            <div class='form-group' pct-upload-user-avatar>
+	            	<label>Avatar</label>
+	                <div class="img-thumbnail center">
+	                	<img ng-src="{{ avatar || 'http://s3-us-west-1.amazonaws.com/pctrly-dev/avatars/users/default.jpg' }}">
+	                </div>
+	                 <button ng-hide='showAvatarUpload' href="" ng-click='showAvatarUpload=true' class="image-button light col-xs-12 fade-out fade-in-delay">Change Avatar</button>
+	                <button ng-disabled='!image' ng-show="image" ng-show='showAvatarUpload' ng-click='uploadImage(avatar)' class="image-button dark col-xs-12 fade-out" ng-bind='uploadMessage'></button>
+	                <div ng-show='showAvatarUpload' class='file-upload fade-out fade-in-delay' ng-mouseenter='uploadHover=true' ng-mouseleave='uploadHover=false' ng-mousedown='uploadHover=false' ng-mouseup='uploadHover=true'>
+	                	<button class="light col-xs-12" ng-class="{ 'light-hover': uploadHover }">Choose Image</button>
+
+	                	<div class='text-center thick gray file-upload-name'>{{ image.name }}</div>
+	                	<div class='text-center thick error file-upload-name'>{{ avatarMessage }}</div>
+	                	<input name='image' id='avatarUpload' type='file' file-upload class='upload' />
+	                	
+	                </div>
+	                <button ng-show='showAvatarUpload' class="light col-xs-12" ng-click='chooseDefaultAvatar()'>Let Us Choose</button>
+	                <button ng-show='showAvatarUpload' class="clear col-xs-12" ng-click='resetAvatarUpload()'>Cancel</button>
+	                
+	            </div>
+
+	            <div class="form-group">
+	            	<label>Password</label>
+	                <button ng-show='!newPassword' class='light col-xs-12 fade-out fade-in-delay' ng-click='newPassword=true;passwordMessage=null;'>Change Password</button>
+	                <div ng-show='newPassword' class='form-sub-group fade-out fade-in-delay'>
+	                	<form name='updatePassword' class="form-vertical form-light center" ng-submit='changePassword(password)' role="form" novalidate >
+		                	<input name='currentPassword' class="form-control" type="password" id="currentPassword" placeholder="Current Password" ng-model='password.current' required>
+		                    <span class="help-block error" ng-show="updatePassword.currentPassword.$dirty && updatePassword.currentPassword.$error.required">Please enter your current password.</span>
+
+		                    <input name='newPassword' class="form-control" type="password" id="newPassword" placeholder="New Password" ng-model='password.new' pct-validate-password required ng-pattern='/^[a-zA-Z0-9!@#$%^&*]*$/'>
+		                    <!-- MESSAGES -->
+							<span class="help-block error" ng-show="!firstTry && updatePassword.newPassword.$dirty && updatePassword.newPassword.$error.required && !updatePassword.newPassword.$error.length">Please enter new password.</span>
+							<span class="help-block error" ng-show="!firstTry && updatePassword.newPassword.$dirty && updatePassword.newPassword.$error.length">Password must be 8-20 characters.</span>
+							<span class="help-block error" ng-show="updatePassword.$dirty && updatePassword.newPassword.$dirty && updatePassword.newPassword.$error.pattern">Passwords can only have numbers, letters, & these guys: !@#$%^&</span>
+
+		                    <input name='checkPassword' class="form-control" type="password" id="checkPassword" placeholder="Re-enter New Password" ng-model='password.check' ui-validate-equals='password.new' required >
+		                    <span class="help-block error" ng-show="!firstTry && updatePassword.checkPassword.$dirty && updatePassword.checkPassword.$error.required">Please enter new password again.</span>
+							<span class="help-block error" ng-show="!firstTry && updatePassword.checkPassword.$dirty && updatePassword.checkPassword.$error.equal && !updatePassword.checkPassword.$error.required && !updatePassword.newPassword.$error.required">Passwords must match.</span>
+		                    <div class='row-fluid'>
+		                    	<button class="clear col-xs-4" type='button' ng-click='resetPassword()'>Cancel</button>
+		                    	<button class="dark col-xs-8" type='submit' pct-validate-form-requirements>Save</button>
+		                    </div>
+		                </form>
+	                </div>
+	                <span class="help-block" ng-show="passwordMessage" ng-class="{ 'error': passwordError, 'success': !passwordError }">{{ passwordMessage }}</span>
+		        </div>
+		    </div>
+
+		    <div class='col-sm-6 row-fluid'>
+				<form name='editUser' class="form-vertical form-light center" ng-submit='saveUser(user)' role="form" novalidate pct-edit-user>
+
+					<div class="form-group">
+		                <div class="">
+		                	<label for="firstName">First Name</label>
+		                    <input name='firstName' class="form-control" type="text" id="firstName" placeholder="First Name" ng-model='user.firstName' required ng-pattern='/^[a-zA-Z]*$/'>
+		                    <span class="help-block error" ng-show="editUser.$dirty && editUser.firstName.$dirty && editUser.firstName.$error.required">Please enter your first name.</span>
+		                    <span class="help-block error" ng-show="editUser.$dirty && editUser.firstName.$dirty && editUser.firstName.$error.pattern">Your name can only have letters in it.</span>
+		                </div>
+
+		                <div class="">
+		                	<label for="lastName">Last Name</label>
+		                    <input name='lastName' class="form-control" type="text" id="lastName" placeholder="Last Name" ng-model='user.lastName' required ng-pattern='/^[a-zA-Z]*$/'>
+		                    <span class="help-block error" ng-show="editUser.$dirty && editUser.lastName.$dirty && editUser.lastName.$error.required">Please enter your last name.</span>
+		                    <span class="help-block error" ng-show="editUser.$dirty && editUser.lastName.$dirty && editUser.lastName.$error.pattern">Your name can only have letters in it.</span>
+		                </div>
+
+		                <div class="">
+		                	<label for="username">Username</label>
+		                    <input name='username' class="form-control" type="text" id="username" placeholder="Username" ng-model='user.username' validate-username required ng-pattern='/^[a-zA-Z0-9]*$/'>
+		                    <span class="help-block error" ng-show="!firstTry && editUser.username.$dirty && (editUser.username.$error.required)">Please enter a username.</span>
+		                    <span class="help-block error" ng-show="editUser.username.$dirty && editUser.username.$error.validateUsername && !editUser.username.$error.usernameChecked">Username already taken.</span>
+		                    <span class="help-block error" ng-show="editUser.$dirty && editUser.username.$dirty && editUser.username.$error.pattern">Usernames can only have numbers & letters.</span>
+		                </div>
+
+		                <div class="">
+		                	<label for="email">Email</label>
+		                    <input name='email' class="form-control" type="email" id="email" placeholder="Email Address" ng-model='user.email' email validate-email required>
+		                    <span class="help-block error" ng-show="editUser.$dirty && editUser.email.$dirty && (editUser.email.$error.required || editUser.email.$error.email)">Please enter a valid email.</span>
+		                    <span class="help-block error" ng-show="editUser.email.$dirty && editUser.email.$error.validateEmail && !editUser.email.$error.emailChecked">This email has an account already.</span>
+		                </div>
+
+		                <div class="">
+		                	<label for="bio">Bio</label>
+		                    <textarea name='bio' maxlength="140" rows='3' class="form-control" id="bio" placeholder="Who are you???" ng-model='user.bio'></textarea>
+		                </div>
+		            </div>
+	 
+
+			        <button type="submit" class="dark col-xs-12" ng-disabled='!changed || editUser.$invalid' ng-class="{ 'disabled' : !changed || editUser.$invalid }" ng-bind="saveMessage" pct-validate-form-requirements></button>
+
+			        <span class="help-block" ng-show="editUserMessage" ng-class="{ 'error': editUserError, 'success': !editUserError }">{{ editUserMessage }}</span>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>

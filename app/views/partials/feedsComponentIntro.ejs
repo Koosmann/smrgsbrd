@@ -1,0 +1,98 @@
+<ul id='feeds' pct-scroll-lock>
+	<div ng-if='placeholder' class='placeholder'>
+		<h1>{{ placeholder.title }}</h1>
+		<h4>{{ placeholder.message }}</h4>
+	</div>
+	<li ng-repeat='feed in feeds' class='fade-out'>
+		<div class="feed-box-wrapper">
+			<div class='feed-box-liquid shadow'>
+				<div class='feed-images'>
+					<div>
+						<div ng-if='feed.longLargeImagePreview'>
+							<div class='feed-images-small'>
+								<div ng-repeat='image in feed.longLargeImagePreview' class='feed-image-wrapper' ng-mouseenter='image.showImage=true' ng-mouseleave='image.showImage=false'>
+									<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-lg-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+										</a>
+									</div>
+									<img pct-image-cloak ng-src='{{ retina && image.large2xThumbnail.url || !retina && image.largeThumbnail.url || image.url }}' height='300' width='{{ image.largeThumbnail.width || image.width*300/image.height }}' />
+								</div>
+							</div>
+							<div class='feed-images-small'>
+								<div ng-repeat='image in feed.longLargeImagePreview2' class='feed-image-wrapper' ng-mouseenter='image.showImage=true' ng-mouseleave='image.showImage=false'>
+									<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+										</a>
+									</div>
+									<img pct-image-cloak ng-src='{{ retina && image.largeThumbnail.url || !retina && image.smallThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width || image.width*150/image.height }}' />
+								</div>
+							</div>
+						</div>
+						<div ng-if='!feed.longLargeImagePreview'>
+							<div class='feed-images-small'>
+								<div ng-repeat='image in feed.longSmallImagePreview' class='feed-image-wrapper' ng-mouseenter='image.showImage=true' ng-mouseleave='image.showImage=false'>
+									<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+										</a>
+									</div>
+									<img pct-image-cloak ng-src='{{ retina && image.largeThumbnail.url || !retina && image.smallThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width || image.width*150/image.height }}' />
+								</div>
+							</div>
+							<div ng-if='feed.longSmallImagePreview2' class='feed-images-small'>
+								<div ng-repeat='image in feed.longSmallImagePreview2' class='feed-image-wrapper' ng-mouseenter='image.showImage=true' ng-mouseleave='image.showImage=false'>
+									<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+										</a>
+									</div>
+									<img pct-image-cloak ng-src='{{ retina && image.largeThumbnail.url || !retina && image.smallThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width || image.width*150/image.height }}' />
+								</div>
+							</div>
+							<div ng-if='feed.longSmallImagePreview3 && !$root.smallDevice' class='feed-images-small'>
+								<div ng-repeat='image in feed.longSmallImagePreview3' class='feed-image-wrapper' ng-mouseenter='image.showImage=true' ng-mouseleave='image.showImage=false'>
+									<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+										</a>
+									</div>
+									<img pct-image-cloak ng-src='{{ retina && image.largeThumbnail.url || !retina && image.smallThumbnail.url || image.url }}' height='150' width='{{ image.smallThumbnail.width || image.width*150/image.height }}' />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class='feed-info-large'>
+					<span ng-show='feed.clicks' class='feed-clicks-wrapper'>
+						<span class='feed-clicks-wrapper-span'>
+							<span class='feed-clicks'>{{ feed.clicks }}</span>
+							<br />
+							<span ng-pluralize count='feed.clicks' when="{ '0':'clicks', 'one': 'click', 'other': 'clicks' }" class='small'></span>
+						</span>
+					</span>
+					<span class='feed-title'>
+						<span>
+							<a href='/feed/{{ feed.id }}' class='light pct-feed-link' pct-title-link>
+								{{ feed.title }}
+							</a>
+						</span>
+						<br ng-if='(feed.city || feed.state || feed.country) && $root.smallDevice' />
+						<span class='feed-location' ng-class="{ 'very-small': $root.smallDevice }">
+							<span ng-show='feed.city' class='detail'>{{ feed.city }}<span ng-show='feed.city && (feed.state || feed.country)' class='detail'>, </span></span>
+							<span ng-show='feed.state' class='detail'>{{ feed.state }}<span ng-show='feed.state && feed.country' class='detail'>, </span></span>
+							<span ng-show='feed.country' class='detail'>{{ feed.country }}</span>
+							&nbsp;
+						</span>
+					</span>
+					<span class='right small inline-menu fade-out'>
+						<span class='inline-menu-button'>
+							<i class='fa fa-heart gold'></i>
+						</span>
+					</span>
+				</div>
+			</div>
+		</div>
+	</li>
+</ul>

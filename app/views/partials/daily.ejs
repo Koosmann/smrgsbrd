@@ -1,0 +1,127 @@
+
+<link rel="stylesheet" type="text/css" href="/assets/css/daily.css" />
+<div class="text-center" ng-show='showEverything' pct-scroll-lock>
+	<br/>
+	<form>
+		<input type="text" ng-model="feed" pct-find-feeds />
+		<h4 ng-repeat="result in results">{{ result.title }}</h4>
+	</form>
+	<br/>
+	<img src="http://visitsmorgasbord.com/assets/img/plate-bd.png" width="100" height="100" />
+	<h2 class="no-margin">Smörgåsbord <span class="gold">{{ day }}</span></h2>
+	<small ng-bind="message"></small>
+	<span>
+		<br />
+		<br />
+		<br />
+	</span>
+	
+	<ul>		
+			<li ng-repeat='feed in updatedFeeds'>
+				<br />
+				<h3 class="no-margin"><a ng-href="{{ feed.url }}">{{ feed.title }}</a></h3>
+				<small>{{ feed.entries.length }} new posts - <a ng-click="remove(feed._id)" class="light" ng-class="{ 'disabled': {{'confirm' + feed._id}} || {{'loading' + feed._id}} }">Remove</a> <i ng-show="{{ 'confirm' + feed._id }}" class='fa fa-check success'></i></small>
+
+				<br />
+				<br />
+				<div ng-init="images=feed.images" class="text-left">
+					<div pct-image-rows='200' pct-image-rows-images='images' pct-no-labels="true">
+					<div class="feed-profile-image-row" ng-repeat="row in rows track by $index" pct-image-row-height='200'>
+				       	<div class='feed-profile-image feed-image-wrapper' ng-repeat='image in row track by $index'>
+					       	<div ng-if='!image.isMultiple && !image.dateMarker && !image.titleMarker' class="feed-profile-image feed-image-wrapper" pct-hover='image' pct-hover-param='showImage'>
+					        	<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+									<div class='share-on-list'>
+									</div>
+									<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+										<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+									</a>
+								</div>
+					        	<img pct-image-cloak ng-src="{{ !imageError && (image.largeThumbnail.url || image.smallThumbnail.url) || image.url }}" pct-image-dimensions pct-image-dimensions-size='200' pct-image-error />
+					       	</div>
+					       	<div ng-if='image.isMultiple' class="feed-profile-image feed-profile-image-block feed-image-wrapper" pct-hover='image' pct-hover-param='showImage0'>
+					        	<div ng-show='image.showImage0 && !scrolling' class='hover-menu-wrapper fade-out'>
+									<div class='share-on-list'>
+									</div>
+									<a href='' ng-href='{{ image.images[0].entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+										<span class='image-source'><span class='black'>{{ image.images[0].entryPublishDate|timeAgo }}</span> {{ image.images[0].entryTitle }}</span>
+									</a>
+								</div>
+					        	<img pct-image-cloak ng-src="{{ !imageError && (image.images[0].largeThumbnail.url || image.images[0].smallThumbnail.url) || image.images[0].url }}" pct-image-dimensions='small' pct-image-dimensions-index='0' pct-image-dimensions-size='100' pct-image-error />
+					       	</div>
+					       	<div ng-if='image.isMultiple && image.images.length==2' class="feed-profile-image feed-profile-image-block feed-image-wrapper" pct-hover='image' pct-hover-param='showImage1'>
+					        	<div ng-show='image.showImage1 && !scrolling' class='hover-menu-wrapper fade-out'>
+									<div class='share-on-list'>
+									</div>
+									<a href='' ng-href='{{ image.images[1].entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+										<span class='image-source'><span class='black'>{{ image.images[1].entryPublishDate|timeAgo }}</span> {{ image.images[1].entryTitle }}</span>
+									</a>
+								</div>
+					        	<img pct-image-cloak ng-src="{{ !imageError && (image.images[1].largeThumbnail.url || image.images[1].smallThumbnail.url) || image.images[1].url }}" pct-image-dimensions='small' pct-image-dimensions-index='1' pct-image-dimensions-size='100' pct-image-error />
+					       	</div>
+					    </div>
+					</div>
+			    </div>
+				</div>
+				<br />
+				<br />
+			</li>
+
+			<br />
+	</ul>
+
+	<div ng-if="randomFeeds">
+		<ul>		
+				<li ng-repeat='feed in randomFeeds'>
+					<br />
+					<h3 class="no-margin"><a ng-href="{{ feed.url }}">{{ feed.title }}</a></h3>
+					<small>{{ feed.entries.length }} new posts - <a ng-click="add(feed._id)" class="light" ng-class="{ 'disabled': {{'confirm' + feed._id}} || {{'loading' + feed._id}} }">Add</a> <i ng-show="{{ 'confirm' + feed._id }}" class='fa fa-check success'></i></small>
+
+					<br />
+					<br />
+					<div ng-init="images=feed.images" class="text-left">
+						<div pct-image-rows='200' pct-image-rows-images='images' pct-no-labels="true">
+						<div class="feed-profile-image-row" ng-repeat="row in rows track by $index" pct-image-row-height='200'>
+					       	<div class='feed-profile-image feed-image-wrapper' ng-repeat='image in row track by $index'>
+						       	<div ng-if='!image.isMultiple && !image.dateMarker && !image.titleMarker' class="feed-profile-image feed-image-wrapper" pct-hover='image' pct-hover-param='showImage'>
+						        	<div ng-show='image.showImage && !scrolling' class='hover-menu-wrapper fade-out'>
+										<div class='share-on-list'>
+										</div>
+										<a href='' ng-href='{{ image.entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.entryPublishDate|timeAgo }}</span> {{ image.entryTitle }}</span>
+										</a>
+									</div>
+						        	<img pct-image-cloak ng-src="{{ !imageError && (image.largeThumbnail.url || image.smallThumbnail.url) || image.url }}" pct-image-dimensions pct-image-dimensions-size='200' pct-image-error />
+						       	</div>
+						       	<div ng-if='image.isMultiple' class="feed-profile-image feed-profile-image-block feed-image-wrapper" pct-hover='image' pct-hover-param='showImage0'>
+						        	<div ng-show='image.showImage0 && !scrolling' class='hover-menu-wrapper fade-out'>
+										<div class='share-on-list'>
+										</div>
+										<a href='' ng-href='{{ image.images[0].entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.images[0].entryPublishDate|timeAgo }}</span> {{ image.images[0].entryTitle }}</span>
+										</a>
+									</div>
+						        	<img pct-image-cloak ng-src="{{ !imageError && (image.images[0].largeThumbnail.url || image.images[0].smallThumbnail.url) || image.images[0].url }}" pct-image-dimensions='small' pct-image-dimensions-index='0' pct-image-dimensions-size='100' pct-image-error />
+						       	</div>
+						       	<div ng-if='image.isMultiple && image.images.length==2' class="feed-profile-image feed-profile-image-block feed-image-wrapper" pct-hover='image' pct-hover-param='showImage1'>
+						        	<div ng-show='image.showImage1 && !scrolling' class='hover-menu-wrapper fade-out'>
+										<div class='share-on-list'>
+										</div>
+										<a href='' ng-href='{{ image.images[1].entryUrl }}' target='_blank' class='block-fill pct-entry-sm-link' pct-image-link>
+											<span class='image-source'><span class='black'>{{ image.images[1].entryPublishDate|timeAgo }}</span> {{ image.images[1].entryTitle }}</span>
+										</a>
+									</div>
+						        	<img pct-image-cloak ng-src="{{ !imageError && (image.images[1].largeThumbnail.url || image.images[1].smallThumbnail.url) || image.images[1].url }}" pct-image-dimensions='small' pct-image-dimensions-index='1' pct-image-dimensions-size='100' pct-image-error />
+						       	</div>
+						    </div>
+						</div>
+				    </div>
+					</div>
+					<br />
+					<br />
+				</li>
+
+				<br />
+		</ul>
+	</div>
+	
+</div>

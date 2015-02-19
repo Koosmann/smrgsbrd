@@ -1,0 +1,21 @@
+<div id='wrapper' ng-class="{'side-bar': showSidebar}">
+	<%= include header %>
+	<%= include sidebar %>
+	<div>
+		<div id='directory'>
+			<!--<div class='centered-anchor'><a href='' id='submitABlog' class='gold-circle-day'><span>SUBMIT<br />A BLOG</span></a></div>-->
+
+			<div id='legend'>
+				<ul>
+					<li ng-repeat='badge in badges'>
+						<span class='inline-badge-{{ badgeClasses[badge] }}'>{{ badge.substr(0, 3) }}</span>
+						<span>{{ badge }}</span>
+					</li>			
+				</ul>
+			</div>
+
+			<%= include directoryComponent %>
+		</div>
+
+	</div>
+</div>

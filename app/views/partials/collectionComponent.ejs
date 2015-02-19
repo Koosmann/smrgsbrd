@@ -1,0 +1,26 @@
+<div class='collection-box'>
+	<a href='' ng-href='/collection/{{ collection.id }}'>
+		<div class='collection-cover-image'>
+			<img pct-image-aspect ng-src='{{ collection.cover.url }}' class='collection-cover-tall' />
+		</div>
+	</a>
+		<div class='collection-details'>
+			<div class='collection-info'>
+				<a href='' ng-href='/collection/{{ collection.id }}' class='light'><h3 class='collection-title'>{{ collection.authorFirstName + ' ' + collection.authorLastName + ': ' }}<span class='thin'>{{ collection.title }}</span></h3></a>
+				<p>{{ collection.description }}</p>
+			</div>
+		</div>
+	</a>
+	<a href='' ng-href='/collection/{{ collection.id }}'>
+		<div class='collection-cover-image-previews'>
+			<div class='feed-images-small' pct-center='600'>
+				<img pct-image-cloak ng-repeat='image in collection.imagePreview' ng-src='{{ image.largeThumbnail.url || image.url }}' height='75' width='{{ image.smallThumbnail.width/2 }}' />
+			</div>
+			<div class='feed-images-small' pct-center='600'>
+				<img pct-image-cloak ng-repeat='image in collection.imagePreview2' ng-src='{{ image.smallThumbnail.url || image.url }}' height='75' width='{{ image.smallThumbnail.width/2 }}' />
+			</div>
+		</div>
+	</a>
+	<a href='' ng-href='/collection/{{ collection.id }}' class='block-link text-center'>See all {{ collection.feeds.length }} blogs</a>
+	<div class='shadow-horizontal-bottom'></div>
+</div>

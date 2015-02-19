@@ -1,0 +1,63 @@
+<header class='intro-header'>
+	<div class='left'>
+		<span><a href='' ng-href='/' class='thick yellow-dark'>Smörgåsbord</a> is a bite-sized way to find & follow beautiful blogs.</span>
+	</div>
+</header>
+
+<div ng-show='!$root.smallDevice' class='spinning-logo' ng-style="{ 'top': windowHeight/20+80 }" pct-window-height pct-scroll-spin></div>
+
+<!-- TITLE -->
+<div id='login' class="visible">
+	<!-- INTRO FRAMES -->
+	<!--<div class='centered-anchor'><img pct-image-cloak src='/assets/img/frames-intro.png' class='frames-intro' width='1200' /></div>-->
+
+	<div class='main-content visible'>
+		<!-- GOLD LINE -->
+		<!--<div id='goldLine1' class='gold-line short-gold-line'></div>-->
+
+		<!-- LOGO -->
+		<!--<div id='logo' class='gold logo logo-medium'><a href='' ng-href='/'>PICTORAL<span class='white'>.</span>LY</a></div>-->
+		<div class='type-header'>
+			<h2 class='black no-margin'><a href='' ng-href='/'>Smörgåsbord</a></h2>
+			<h2 class='black thin no-margin'><a href='' ng-href='/'>Log in.</a></h2>
+		</div>
+
+
+		<!-- FORM -->
+		<div class="sm-medium-form-wrapper visible">
+			<form name="loginForm" ng-submit="login(user)" novalidate>
+				<div class="input-group input-inline input-inline-liquid full">
+					<input id='username' name='username' type='text' placeholder='Username or Email Address' ng-model='user.username' required />
+					<!--<i ng-show='!firstTry && loginForm.username.$dirty && loginForm.username.$invalid || loginForm.username.$dirty && loginForm.username.$error.required || !firstTry && loginForm.username.$valid' class='input-message-icon' ng-class="{'icon-remove': loginForm.username.$invalid, 'icon-ok': loginForm.username.$valid, 'error': loginForm.username.$invalid, 'success': loginForm.username.$valid}"></i>-->
+				</div>
+
+				<div class="input-group input-inline input-inline-liquid two-thirds">
+					<input id='password' name='password' type='password' placeholder='Password' ng-model='user.password' required />
+					<!--<i ng-show='!firstTry && loginForm.password.$dirty && loginForm.password.$invalid || loginForm.password.$dirty && loginForm.password.$error.required || !firstTry && loginForm.password.$valid' class='input-message-icon' ng-class="{'icon-remove': loginForm.password.$invalid, 'icon-ok': loginForm.password.$valid, 'error': loginForm.password.$invalid, 'success': loginForm.password.$valid}"></i>-->
+				</div><!--
+
+				--><input href='' type='submit' value='Log in' class='input-inline input-inline-liquid third white' pct-validate-form-requirements />
+				<span ng-bind='error' class='error'></span>
+			</form>
+		</div>
+		<br />
+		<br />
+		<a href='' ng-href='/invite#join' class='yellow-dark thick'>Request an Invite</a>
+	</div>
+
+	<!-- GOLD LINE -->
+	<!--<div class='gold-line min-medium-gold-line'></div>-->
+</div>
+<!--<footer ng-class="{ 'dark': dark }">
+	<span>
+		<span class='no-break'>MADE IN LA & SWEDEN</span> / <span class='no-break'>say hi to us: <a href='mailto:hello@pictoral.ly' class='menu-button' target='_blank'>hello@pictoral.ly</a></span> / 
+
+		<span class='no-break'> follow us:
+			<a href='http://www.pinterest.com/pictorally' class='menu-button' target='_blank'><i class='icon-pinterest'></i></a>
+
+			<a href='http://www.twitter.com/pictoral_ly' class='menu-button' target='_blank'><i class='icon-twitter'></i></a>
+
+			<a href='http://www.instagram.com/pictoral_ly' class='menu-button' target='_blank'><i class='icon-instagram'></i></a>
+		</span>
+	</span>
+</footer>-->

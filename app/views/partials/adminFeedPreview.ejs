@@ -1,0 +1,6 @@
+<h1>{{ feed.title }}</h1>
+<h6>{{ feed.feedUrl }}</h6>
+
+<ul>
+	<li ng-repeat="entry in feed.entries"><div ng-bind-html="entry.content"></div></li>
+</ul>

@@ -1,0 +1,30 @@
+<header class='full' ng-controller='Header' ng-class="{ 'header-sidebar': shwoSidebar }">
+	<div class='gold menu-left left'>
+		<div class='main-logo logo-type' p-scroll-appea p-scroll-appear-range='50' p-scroll-appear-offset='100' p-scroll-appear-opacity-finish='0' p-scroll-appear-opacity-initial='1'>
+			<a href='' ng-href='/' class='block-fill' target='_self' pct-mx='logo link'>SMÖRGÅSBORD</a>
+		</div>
+		<!--<div class='main-logo-mini logo-type' p-scroll-appear p-scroll-appear-range='50' p-scroll-appear-offset='100' p-scroll-appear-opacity-finish='0.97' p-scroll-appear-opacity-initial='0'>
+			<a href='' ng-href='/' class='block-fill' target='_self' pct-mx='mini logo link'>S</a>
+		</div>-->
+	</div><!--
+	--><!--<div class='menu-center left' compile='topMenu'>
+		<span class='current-section-wrapper'>
+			<span class='current-section'>
+				<h3 ng-class="{ 'gold': page.current, 'white': !page.current }">{{ nav[page.title].title }}</h3><br />
+				<span class='subtitle white small slab'>{{ nav[page.title].subtitle }}</span>
+			</span>
+		</span>
+	</div><!--
+	--><!--<div class='gold menu-right right'>
+		<span class='right'>
+			<!--<a href='' ng-href='/discover' class='nav-button nav-button-discover' ng-class="{ 'nav-button-discover-active' : page.discover }" pct-nav-hover='discover'></a><!--
+			--><!--<a href='' ng-href='/snapshots' class='nav-button nav-button-snapshots' ng-class="{ 'nav-button-snapshots-active' : page.snapshots }" pct-nav-hover='snapshots'></a><!--
+			--><!--<a href='' ng-href='/collections' class='nav-button nav-button-collections' ng-class="{ 'nav-button-collections-active' : page.collections }" pct-nav-hover='collections'></a>--><!--
+			--><!--<a href='' ng-href='/directory' class='nav-button nav-button-directory' ng-class="{ 'nav-button-directory-active' : page.directory }" pct-nav-hover='directory'></a><!--
+			--><!--<a ng-init='$parent.$parent.showSidebar=false' ng-click='$parent.$parent.showSidebar=!$parent.$parent.showSidebar;page.sidebar=!page.sidebar' href='' class='nav-button' ng-class="{ 'nav-button-sidebar-activ' : page.sidebar, 'shadow-dark-right': $parent.$parent.showSidebar }" pct-nav-hover='sidebar' p-scroll-appear p-scroll-appear-range='50' p-scroll-appear-offset='100' p-scroll-appear-opacity-finish='0.97' p-scroll-appear-opacity-initial='1' pct-mx='open sidebar'></a>-->
+		<!--</span>
+	</div>-->
+	<div ng-if='!currentUser' class='header-box right'>
+		<a href='' ng-href='/invite#join' class='yellow-dark block-fill' target='_self' pct-celebrate="dark" pct-celebrate-speed='250'>Request an Invite</a>
+	</div>
+</header>

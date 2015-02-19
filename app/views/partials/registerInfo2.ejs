@@ -1,0 +1,60 @@
+<div id='register' class='gold-background slideup' pct-size-to-window>
+	<!-- INTRO FRAMES -->
+
+	<div class='main-content'>
+		<div class='section-header'>
+			<div class='section-index'>1</div>
+			<h2 class='pad'>Sign up</h2>
+		</div>
+
+		<div id='account' class='small-form-wrapper center form-light row-fluid'>
+		    <div class='col-sm-12 row-fluid'>
+				<form name='registerInfo' class="form-vertical form-light center" ng-submit='registerInfo2Submit(user)' role="form" novalidate>
+
+					<div class="form-group">
+		                <div class="">
+		                    <input name='username' class="form-control" type="text" id="username" placeholder="Username" ng-model='user.username' validate-username required ng-pattern='/^[a-zA-Z0-9_]*$/'>
+		                    <span class="help-block error" ng-show="!firstTry && registerInfo.username.$dirty && (registerInfo.username.$error.required)">Please enter a username.</span>
+		                    <span class="help-block error" ng-show="registerInfo.username.$dirty && registerInfo.username.$error.validateUsername && !registerInfo.username.$error.usernameChecked">Username already taken.</span>
+		                    <span class="help-block error" ng-show="registerInfo.$dirty && registerInfo.username.$dirty && registerInfo.username.$error.pattern">Usernames can only have numbers, letters, & underscores.</span>
+		                </div>
+
+		                <div class="">
+				            <input name='password' class="form-control" type="password" id="password" placeholder="Password" ng-model='user.password' pct-validate-password required ng-pattern='/^[a-zA-Z0-9!@#$%^&*]*$/'>
+		                    <!-- MESSAGES -->
+							<span class="help-block error" ng-show="!firstTry && registerInfo.password.$dirty && registerInfo.password.$error.required && !registerInfo.password.$error.length">Please enter new password.</span>
+							<span class="help-block error" ng-show="!firstTry && registerInfo.password.$dirty && registerInfo.password.$error.length">Password must be 8-20 characters.</span>
+							<span class="help-block error" ng-show="registerInfo.password.$dirty && registerInfo.password.$error.pattern">Passwords can only have numbers, letters, & these guys: !@#$%^&</span>
+
+		                    <input name='checkPassword' class="form-control" type="password" id="checkPassword" placeholder="Re-enter Password" ng-model='user.passwordCheck' ui-validate-equals='user.password' required>
+		                    <span class="help-block error" ng-show="!firstTry && registerInfo.checkPassword.$dirty && registerInfo.checkPassword.$error.required">Please enter new password again.</span>
+						<span class="help-block error" ng-show="!firstTry && registerInfo.checkPassword.$dirty && registerInfo.checkPassword.$error.equal && !registerInfo.checkPassword.$error.required && !registerInfo.password.$error.required">Passwords must match.</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+		                <div class="">
+		                    <input name='firstName' class="form-control" type="text" id="firstName" placeholder="First Name" ng-model='user.firstName' required ng-pattern="/^[a-zA-Z']*$/">
+		                    <span class="help-block error" ng-show="registerInfo.$dirty && registerInfo.firstName.$dirty && registerInfo.firstName.$error.required">Please enter your first name.</span>
+		                    <span class="help-block error" ng-show="registerInfo.$dirty && registerInfo.firstName.$dirty && registerInfo.firstName.$error.pattern">Your name can only have letters in it.</span>
+		                </div>
+
+		                <div class="">
+		                    <input name='lastName' class="form-control" type="text" id="lastName" placeholder="Last Name" ng-model='user.lastName' required ng-pattern='/^[a-zA-Z]*$/'>
+		                    <span class="help-block error" ng-show="registerInfo.$dirty && registerInfo.lastName.$dirty && registerInfo.lastName.$error.required">Please enter your last name.</span>
+		                    <span class="help-block error" ng-show="editUser.$dirty && registerInfo.lastName.$dirty && registerInfo.lastName.$error.pattern">Your name can only have letters in it.</span>
+		                </div>
+
+		                <div class="">
+		                    <textarea name='bio' maxlength="140" rows='3' class="form-control" id="bio" placeholder="About You (optional)" ng-model='user.bio'></textarea>
+		                </div>
+		            </div>
+
+			        <button type="submit" class="yellow-dark col-xs-12" pct-validate-form-requirements>Submit</button>
+
+			        <span class="help-block" ng-show="editUserMessage" ng-class="{ 'error': editUserError, 'success': !editUserError }">{{ editUserMessage }}</span>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js css-calc" lang="en" ng-app="cats" ng-controller='Main' ng-class="{ 'dark': dark, 'light': !dark && !white, 'yellow': yellow, 'white-background': white }"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title><%= data.title %></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <meta name="p:domain_verify" content="d59908ec1acb22c02e25f512f523c1b6"/>
+        <link rel='icon' type='image/png' href='/assets/img/Icon_32x32.png' />
+        <%- data.css %>
+        <% if (data.admin) { %>
+            <link rel="stylesheet" type="text/css" href="/assets/css/admin.css" />
+        <% } else { %>
+            <link rel="stylesheet" type="text/css" href="/assets/css/intro.css" />
+        <% } %>
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    </head>
+    <body ng-class="{ 'modal-open': modalOpen }">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+      	<div ng-view ng-class="{ 'slideup': slideup, 'fade': fade }"></div>
+
+        <% if (data.admin) { %>
+            <% if (data.dev) { %>
+                <script type='text/javascript' src='/assets/js/pictorally-admin.js'></script>
+            <% } else { %>
+                <script type='text/javascript' src='/assets/js/pictorally-admin.min.js'></script>
+            <% } %>
+        <% } else { %>
+            <% if (data.dev) { %>
+                <script type='text/javascript' src='/assets/js/pictorally.js'></script>
+            <% } else { %>
+                <script type='text/javascript' src='/assets/js/pictorally.min.js'></script>
+            <% } %>
+            <!--<script type='text/javascript' src='/socket.io/socket.io.js'></script>-->
+        <% } %>
+
+        <!-- start Typekit -->
+        <script type="text/javascript" src="//use.typekit.net/vox3apy.js"></script>
+        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+        <!-- end Typekit -->
+
+        <!-- start Mixpanel -->
+        <script type="text/javascript">(function(e,b){if(!b.__SV){var a,f,i,g;window.mixpanel=b;a=e.createElement("script");a.type="text/javascript";a.async=!0;a.src=("https:"===e.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.2.min.js';f=e.getElementsByTagName("script")[0];f.parentNode.insertBefore(a,f);b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==
+typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");for(g=0;g<i.length;g++)f(c,i[g]);
+b._i.push([a,e,d])};b.__SV=1.2}})(document,window.mixpanel||[]);
+mixpanel.init('<%= data.mixpanelToken %>');
+        </script>
+        <!-- end Mixpanel -->
+
+        <!-- start Pinterest -->
+            <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
+        <!-- end Pinterest -->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            var _gaq=[['_setAccount','<%= data.googleAnalyticsToken %>']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src='//www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>

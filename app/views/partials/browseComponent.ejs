@@ -1,0 +1,91 @@
+<div class='content-menu'>
+	<!--<ul class='sorting-options'>
+		<li ng-repeat='option in orderOptions' class='sorting-option text-dark' ng-class='{"sorting-option-active":option.active}' ng-click='queryFeeds(option.value)' ng-disabled='loading'>{{ option.name }}</li>
+	</ul>
+	<br />-->
+	<span ng-repeat='category in categoryList'>
+		<input id='{{ category.value }}' name='{{ category.value }}' type="checkbox" value="{{ category.value }}" ng-model='category.active' ng-checked='category.active' ng-change="queryFeeds()" ng-disabled='loading'>
+		<label for='{{ category.value }}' class='category-label'>{{ category.value }}</label>
+    </span>
+
+	<!--&nbsp;&nbsp;&nbsp;Sort feed by: <select ng-model='sortingType' ng-change='getFeeds(sortingType)' ng-options='type.value as type.name for type in sortingOptions'></select>-->
+</div>
+
+<div class='content' p-endless-scroll p-scroll-do='loadFeeds' p-scroll-at-column='shortestColumnIndex' p-scroll-threshold='1000' p-fill-window>
+
+	<!-- Columns -->
+	<div ng-repeat='column in columns' class='column'>
+		
+		<!-- Feeds -->
+		<div ng-repeat='feed in column' class='feed-box'>
+			<div class='feed-label' style='white-space:normal;'>
+				<span class='feed-title'>
+					<a class='inherit-color text-large' href='{{ feed.url }}' target='_blank'>{{ feed.title }}</a>
+					<span class='recent-posts-count' tooltip-placement="left" tooltip="{{ feed.entries|recentCount|postsSinceDaysAgo }}" ng-show='feed.entries|recentCount' style='float:right;'>
+						<a href='{{ feed.url }}' class='inherit-color' style='text-decoration:none;' target='_blank'>{{ feed.entries|recentCount }}</a>
+					</span>
+					<br/>
+					<span ng-repeat='category in feed.categories' style='white-space:nowrap;display:inline-block;'><a href='/?categories={{ category|encodeURIComponent }}'>{{ category|uppercase }}</a><span ng-hide='$last'>,&nbsp;</span></span>
+					<span ng-show='feed.storeUrl || feed.newsletterSignupUrl || feed.city || feed.state || feed.country'><br/></span>
+					<span ng-show='feed.storeUrl' style='white-space:nowrap;display:inline-block;'>
+						<br/>
+						<i class='icon-shopping-cart feed-attribute'></i>
+						<a href='' ng-href='{{ feed.storeUrl }}' target='_blank'>Visit Shop</a>
+					</span>
+					<span ng-show='feed.newsletterSignupUrl' style='white-space:nowrap;display:inline-block;'>
+						<br/>
+						<i class='icon-envelope feed-attribute'></i>
+						<a href='' ng-href='{{ feed.newsletterSignupUrl }}' target='_blank'>Subscribe to Newsletter</a>
+					</span>
+					<span ng-show='feed.city || feed.state || feed.country' style='white-space:nowrap;display:inline-block;'>
+						<br/>
+						<i class='icon-map-marker feed-attribute'></i>
+						<a href='' ng-href='/?city={{ feed.city|encodeURIComponent }}'>{{ feed.city }}</a><span ng-show='(feed.city && feed.state) || (feed.city && feed.country)'>,</span>
+						<a href='' ng-href='/?state={{ feed.state|encodeURIComponent }}'>{{ feed.state }}</a><span ng-show='feed.state && feed.country'>,</span>
+						<a href='' ng-href='/?country={{ feed.country|encodeURIComponent }}'>{{ feed.country }}</a>
+					</span>
+					<span ng-show='feed.twitterUrl || feed.instagramUrl || feed.facebookUrl || feed.pinterestUrl || feed.tumblrUrl || feed.flickrUrl' style='white-space:nowrap;display:inline-block;'>
+						<br/>
+						<br/>
+						<span ng-show='feed.twitterIcon'><a href='' ng-href='{{ feed.twitterUrl }}' target='_blank'><i class='icon-twitter icon-large'></i></a>&nbsp;</span>
+						<span ng-show='feed.instagramUrl'><a href='' ng-href='{{ feed.instagramUrl }}' target='_blank'><i class='icon-instagram icon-large'></i></a>&nbsp;</span>
+						<span ng-show='feed.facebookUrl'><a href='' ng-href='{{ feed.facebookUrl }}' target='_blank'><i class='icon-facebook icon-large'></i></a>&nbsp;</span>
+						<span ng-show='feed.pinterestUrl'><a href='' ng-href='{{ feed.pinterestUrl }}' target='_blank'><i class='icon-pinterest icon-large'></i></a>&nbsp;</span>
+						<span ng-show='feed.tumblrUrl'><a href='' ng-href='{{ feed.tumblrUrl }}' target='_blank'><i class='icon-tumblr icon-large'></i></a>&nbsp;</span>
+						<span ng-show='feed.flickrUrl'><a href='' ng-href='{{ feed.flickrUrl }}' target='_blank'><i class='icon-flickr icon-large'></i></a>&nbsp;</span>
+					</span>
+				</span>
+				<!--<div ng-click='addFeed(feed)' class='entry-button entry-button-active text-small' ng-show='!feed.isSubscribed'>SUBSCRIBE<span style='float:right;'>{{ feed.subscribers.length }}</span></div>
+				<div class='entry-button text-small' ng-show='feed.isSubscribed'>SUBSCRIBED&nbsp;<i style='color:rgb(58, 179, 58);' class='icon-ok'></i><span style='float:right;'>{{ feed.subscribers.length }}</span></div>-->
+			</div>
+
+			<!-- Entries -->
+			<div ng-repeat='entry in feed.entries.slice(0, 2)' class="entry-box" ng-class='{"entry-box-current":stickyLabel, "large-gray-border":!$last}' p-sticky-label>
+				<div ng-show='entry.images.length|boolean' style='position:relative;'>
+					<div class='entry-image-medium' ng-class='{"thin-white-border":!$last}' ng-repeat='image in entry.images.slice(0, 10)' p-blank-href='{{ entry.url }}' ng-show='{{ image|notTinyImage }}'>
+						<img ng-src='{{ image.url }}' p-image-placeholder p-image-height='{{ image.height }}' p-image-width='{{ image.width }}'/>
+					</div>
+
+					<!-- Entry Info -->
+					<div class="entry-hover-container" ng-style='stickyHeight' ng-show='showLabel'>
+						<div class='entry-info'>
+							<span class='entry-title text-dark' ng-class='{"read":entry.read}'>{{ entry.title|notEmptyString }}</span>
+							<span class='entry-date text-small text-dark'>{{ feed.title }} - {{ entry.publishDate|timeAgo }}</span>
+						</div>
+						<div class='entry-info-button text-small text-dark' ng-class='{"entry-info-button-active": !entry.liked, "entry-info-button-used": entry.liked}' p-like-button ng-click='markAsLiked(feed, entry)'>
+							<i class='icon-heart icon-2x' ng-class='{"liked": entry.liked}' style="float:right;"></i>
+						</div>
+						<!--<div class='entry-button-active text-small text-dark' ng-click='openFeed(feed, entry)'>
+							<i class='icon-share-alt icon-3x'></i>
+						</div>-->
+
+						<div class="entry-hover-background"></div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+	<div class='loading-placeholder' ng-show='loading' p-spinner>
+		<img src="https://s3-us-west-1.amazonaws.com/pctrly-dev/Pictorally_loading.gif" />
+	</div>
+</div>

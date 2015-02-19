@@ -1,0 +1,108 @@
+<header ng-controller='Header'>
+	<ul class='header-item-container horizontal-header-item-container'>
+		<li class='header-item'>
+			<a href='/' style='text-decoration:none;' class='pct-logo' ><span class='logo' p-colors>P</span></a>
+		</li>
+		
+		<li class='header-item text-small' ng-init='showHeaderAdmin=false' ng-mouseenter='showHeaderAdmin=true' ng-mouseleave='showHeaderAdmin=false' style='position:relative;padding:0px 10px;overflow:visible;vertical-align:top;'>
+			<span ng-click='showHeaderAdmin=!showHeaderAdmin'>Categories</span>&nbsp;&nbsp;<i class='icon-chevron-down'></i>
+				<ul class="header-admin-dropdown" ng-show='showHeaderAdmin'>
+					<li>
+						<a href='' ng-href='/' class="block-link pct-category-dropdown-link">
+							<div style='padding: 15px 10px;'>
+								All
+							</div>
+						</a>
+					</li>
+					<li ng-repeat='category in $parent.categoryList'>
+						<a href='' ng-href='/?categories={{ category.value|encodeURIComponent }}' class="block-link pct-category-dropdown-link" ng-class='{ "active": category.active }'>
+							<div style='padding: 15px 10px;'>
+								{{ category.value }}
+							</div>
+						</a>
+						<!--<input id='{{ category.value }}' name='{{ category.value }}' type="checkbox" value="{{ category.value }}" ng-model='category.active' ng-checked='category.active' ng-change="queryFeeds(category.value)" ng-disabled='loading'>
+						<label for='{{ category.value }}' class='category-label'>{{ category.value }}</label>-->
+					</li>
+					<li>
+						<a href='' ng-href='/?randomize=true' class="block-link pct-category-dropdown-link">
+							<div style='padding: 15px 10px;' pct-randomize>
+								<span>R</span><span>a</span><span>n</span><span>d</span><span>o</span><span>m</span><span>i</span><span>z</span><span>e</span> 
+							</div>
+						</a>
+					</li>
+			    </ul>
+		</li>
+
+		<li class='header-item text-small' ng-init='showHeaderPlaces=false' ng-mouseenter='showHeaderPlaces=true' ng-mouseleave='showHeaderPlaces=false' style='position:relative;padding:0px 10px;overflow:visible;vertical-align:top;'>
+			<span ng-click='showHeaderPlaces=!showHeaderPlaces'>Places</span>&nbsp;&nbsp;<i class='icon-chevron-down'></i>
+				<ul class="header-admin-dropdown" ng-show='showHeaderPlaces'>
+					<li>
+						<a href='' ng-href='/?city=Brooklyn&state=New%20York&country=USA' class="block-link pct-city-dropdown-link">
+							<div style='padding: 15px 10px;'>
+								Brooklyn
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href='' ng-href='/?state=California&country=USA' class="block-link pct-state-dropdown-link">
+							<div style='padding: 15px 10px;'>
+								California
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href='' ng-href='/?country=Sweden' class="block-link pct-country-dropdown-link">
+							<div style='padding: 15px 10px;'>
+								Sweden
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href='' ng-href='/?city=London' class="block-link pct-city-dropdown-link">
+							<div style='padding: 15px 10px;'>
+								London
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href='' ng-href='/?city=Portland&state=Oregon&country=USA' class="block-link pct-city-dropdown-link">
+							<div style='padding: 15px 10px;'>
+								Portland
+							</div>
+						</a>
+					</li>
+					
+			    </ul>
+		</li>
+
+		<li class='header-item text-small' style='padding:0px 10px;'>
+			<a href='' ng-href='/about' class="block-link pct-about" style='color:inherit !important;text-decoration:none !important;'>
+				<span>About</span>
+			</a>
+		</li>
+
+		<li pct-to-top class='header-item circular-button' style='float:right;font-size:14px;' p-scroll-appear p-scroll-appear-range='0' p-scroll-appear-opacity='1'>
+			<i class='icon-double-angle-up'></i>
+		</li>
+
+		<!--<li pct-reload class='header-item circular-button' style='float:right;font-size:14px;'>
+			<i class='icon-refresh'></i>
+		</li>-->
+		
+		<!--<li class='header-item user-info' ng-hide='smallDevice'>
+			<div class='header-admin' ng-class='{"header-admin-hover": showHeaderAdmin }' ng-init='showHeaderAdmin=false' ng-click='showHeaderAdmin=!showHeaderAdmin' ng-mouseenter='showHeaderAdmin=true' ng-mouseleave='showHeaderAdmin=false'>
+				<i class='icon-sort-down'>&nbsp;&nbsp;</i>
+				<span>
+					<img class='user-small-round' ng-src='{{ currentUser.avatar }}' title='{{ currentUser.username }}' />
+				</span>
+				<ul class="header-admin-dropdown" ng-show='showHeaderAdmin'>
+					<li class='text-small'>Hi, {{ currentUser.firstName }}!</li>
+					<li class="text-small text-dark" p-href='/user/{{ currentUser.id }}'>Profile</li>
+					<li class="text-small text-dark" p-href='/'>Settings</li>
+					<li class="text-small text-dark" ng-click='logout()'>Log Out</li>
+				</ul>
+			</div>
+		</li>-->
+	</ul>
+	<div class='shadow-horizontal-bottom' p-scroll-appear p-scroll-appear-range='0' p-scroll-appear-opacity='.15'></div>
+</header>

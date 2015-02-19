@@ -1,0 +1,12 @@
+<form name="avatar" class="form-horizontal">
+    <div class="control-group">
+        <label class="control-label" for="image">Add your Avatar</label>
+        <div class="controls">
+            <img ng-src='{{ avatar.avatar }}' width='140' height='140'/>
+             <a href="" ng-click='uploadUserAvatar(avatar)' class="btn btn-primary">Upload Image</a>
+            <input id='userAvatarUpload' type='file' file-upload />
+        </div>
+    </div>  
+</form>
+<button ng-click="go('/')" ng-disabled="!avatar.avatar">Next</button><br />
+<a href='/'>Skip</a>

@@ -1,0 +1,36 @@
+<div style='text-align:center;'>
+	<br/>
+	<img src="<%= url %>/assets/img/plate-bd.png" width="100" height="100" />
+	<h1>Smörgåsbord <span style="color:#FFC61C;"><%= day %></span></h1>
+	<% if (feeds.length > 0) { %>
+		<p><span style="color:#999;">You have <%= feeds.length %> updated blogs:</span>
+			<% for (var i=0; i<feeds.length; i++) { %>
+				<% if (i != feeds.length-1) { %>
+					<b><%= feeds[i].title %></b><span style="color:#999;">,</span>
+				<% } else { %>
+					<span style="color:#999;">&</span> <b><%= feeds[i].title %></b><span style="color:#999;">.</span>
+				<% } %>
+			<% } %>
+		</p>
+	<% } else if (feeds.length == 1) {%>
+		<p><span style="color:#999;">You have 1 updated blog: 
+			<%= feeds[i].title %>.
+		</p>
+	<% } else { %>
+		<% if (user.favoriteFeeds.length == 0) { %>
+			<p><span style="color:#999;">You don't have any favorites yet. Here are some great blogs to get you started.<br/><br/>If you discover one you like, just click 'Add' and it will be apart of this email every time they update.</span>
+			</p>
+		<% } else { %>
+			<p><span style="color:#999;">You have no updated blogs, so we selected 10 randoms for you.<br/><br/>If you discover one you like, just click 'Add' and it will be apart of this email every time they update.</span>
+			</p>
+		<% } %>	
+	<% } %>
+	<br />
+	
+	<div style='text-align:center;' align='center'>
+		<a href='<%= url %>/daily/<%= emailId %>?utm_source=daily&utm_medium=email&utm_campaign=daily' style='display:inline-block;width:200px;border-radius:10px;color: #111111;background:#FFC61C;padding: 20px 0px 20px 0px; font-size: 16px;text-decoration:none;'>
+			<b>Open</b>
+		</a>
+	</div>
+
+</div>

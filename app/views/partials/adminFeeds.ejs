@@ -1,0 +1,379 @@
+<h1>Feeds</h1>
+<p>Your resource for all feed admin.</p>
+
+<a ng-click="openAddModal()" role="button" class="btn btn-primary" data-toggle="modal">Add Feed</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Avatar</th>
+            <th>Title</th>
+            <th>URL</th>
+            <th>Newest Entry Date</th>
+            <th># of Entries</th>
+            <th>Preview Content</th>
+            <th>Edit</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="feed in feeds">
+            <td>{{ $index + 1 }}</td>
+            <td><img ng-src='{{ feed.avatar }}' width='50' class="img-thumbnail" /></td>
+            <td>{{ feed.title }}</td>
+            <td>{{ feed.url }}</td>
+            <td>{{ feed.lastPublished.toString() }}</td>
+            <td>{{ feed.entryCount }}</td>
+            <td><a ng-href='/admin/feed/{{ feed.id }}/preview' target="_blank" class='btn btn-default'><i class="icon-picture"></i></a></td>
+            <td><a ng-href='' ng-click='openEditModal(feed)' class="btn btn-default" data-toggle="modal"><i class="icon-edit"></i></a></td>
+        </tr>
+    </tbody>
+</table>
+
+<a ng-click="openAddModal()" role="button" class="btn btn-primary" data-toggle="modal">Add Feed</a>
+
+<h5>Not {{ currentUser.firstName }}? <a href='' ng-click='logout()'>Logout</a></h5>
+
+<h6><a href p-external-href='/'>Cats</a></h6>
+
+<!-- Modals -->
+<!-- Add Feed Modal -->
+<div id="addFeed" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addFeed" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Add Feed</h3>
+            </div>
+            <form name='newFeed' class="form-horizontal" ng-submit='addFeed(feed)' role="form" novalidate>
+                <div class="modal-body">
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label" for="title" >Title</label>
+                        <div class="col-sm-8">
+                            <input name='title' class="form-control" type="text" id="title" placeholder="Title" ng-model='feed.title' required>
+                            <span class="help-block" ng-show="newFeed.$dirty && newFeed.title.$dirty && newFeed.title.$error.required">Please enter a feed title.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="author">Author</label>
+                        <div class="col-sm-8">
+                            <input name='author' class="form-control" type="text" id="author" placeholder="Author" ng-model='feed.author' required>
+                            <span class="help-block" ng-show="newFeed.$dirty && newFeed.author.$dirty && newFeed.author.$error.required">Please enter the feed's author.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="url">URL</label>
+                        <div class="col-sm-8">
+                            <input name='url' class="form-control" type="text" id="url" placeholder="URL" ng-model='feed.url' required>
+                            <span class="help-block" ng-show="newFeed.$dirty && newFeed.url.$dirty && newFeed.url.$error.required">Please enter the feed's url.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="feedUrl" >Feed URL</label>
+                        <div class="col-sm-8">
+                            <input name='feedUrl' class="form-control" type="text" id="feedUrl" placeholder="Feed URL" ng-model='feed.feedUrl' required validate-feed-url>
+                            <span class="help-block" ng-show="newFeed.feedUrl.$pristine && newFeed.feedUrl.$error.validFeedUrl">Please enter a valid RSS feed Url.</span>
+                            <span class="help-block" ng-show="newFeed.$dirty && newFeed.feedUrl.$dirty && newFeed.url.$error.required">Please enter the feed's RSS url.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="storeUrl" >Store URL</label>
+                        <div class="col-sm-8">
+                            <input name='storeUrl' class="form-control" type="text" id="storeUrl" placeholder="Store URL" ng-model='feed.storeUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="portfolioUrl" >Portfolio URL</label>
+                        <div class="col-sm-8">
+                            <input name='portfolioUrl' class="form-control" type="text" id="portfolioUrl" placeholder="Portfolio URL" ng-model='feed.portfolioUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="newsletterSignupUrl" >Newsletter Signup URL</label>
+                        <div class="col-sm-8">
+                            <input name='newsletterSignupUrl' class="form-control" type="text" id="newsletterSignupUrl" placeholder="Newsletter Signup URL" ng-model='feed.newsletterSignupUrl'>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="twitterUrl" >Twitter URL</label>
+                        <div class="col-sm-8">
+                            <input name='twitterUrl' class="form-control" type="text" id="twitterUrl" placeholder="Twitter URL" ng-model='feed.twitterUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="instagramUrl" >Instagram URL</label>
+                        <div class="col-sm-8">
+                            <input name='instagramUrl' class="form-control" type="text" id="instagramUrl" placeholder="Instagram URL" ng-model='feed.instagramUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="facebookUrl" >Facebook URL</label>
+                        <div class="col-sm-8">
+                            <input name='facebookUrl' class="form-control" type="text" id="facebookUrl" placeholder="Facebook URL" ng-model='feed.facebookUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="pinterestUrl" >Pinterest URL</label>
+                        <div class="col-sm-8">
+                            <input name='pinterestUrl' class="form-control" type="text" id="pinterestUrl" placeholder="Pinterest URL" ng-model='feed.pinterestUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="tumblrUrl" >Tumblr URL</label>
+                        <div class="col-sm-8">
+                            <input name='tumblrUrl' class="form-control" type="text" id="tumblrUrl" placeholder="Tumblr URL" ng-model='feed.tumblrUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="flickrUrl" >Flickr URL</label>
+                        <div class="col-sm-8">
+                            <input name='flickrUrl' class="form-control" type="text" id="flickrUrl" placeholder="Flickr URL" ng-model='feed.flickrUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="etsyUrl" >Etsy URL</label>
+                        <div class="col-sm-8">
+                            <input name='etsyUrl' class="form-control" type="text" id="etsyUrl" placeholder="Etsy URL" ng-model='feed.etsyUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="city" >City</label>
+                        <div class="col-sm-8">
+                            <input name='city' class="form-control" type="text" id="city" placeholder="City (e.g. Los Angeles, Stockholm, London)" ng-model='feed.city'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="state" >State</label>
+                        <div class="col-sm-8">
+                            <input name='state' class="form-control" type="text" id="state" placeholder="State (e.g. California, New York)" ng-model='feed.state'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="country" >Country</label>
+                        <div class="col-sm-8">
+                            <input name='country' class="form-control" type="text" id="country" placeholder="Country (e.g. USA, Sweden, Englad)" ng-model='feed.country'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="description">Description</label>
+                        <div class="col-sm-8">
+                            <textarea name='description' rows="3" class="form-control" id="description" placeholder="Add description here..." ng-model='feed.description'></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="categories">Categories</label>
+                        <div class="col-sm-8">
+                            <label ng-repeat='category in categories' class="checkbox"><input type="checkbox" ng-checked="isSelected(category)" ng-click="updateSelection($event, category)" id="{{ category }}" value="{{ category }}"> {{ category }}</label>
+                        </div>
+                    </div>
+                
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+                    <button type="submit" class="btn btn-primary" ui-validate-form-requirements>Add Feed</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Feed Modal -->
+<div id="editFeed" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editFeed" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class='modal-title'>Edit Feed</h3>
+            </div>
+            
+            <form name='editFeed' ng-submit='saveFeed(feed)' role="form" class="form-horizontal">
+
+                <div class="modal-body">
+                    
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="image">Avatar</label>
+                        <div class="col-sm-8">
+                            <img ng-src='{{ feed.avatar }}' width='140' class="img-thumbnail">
+                             <a href="" ng-click='uploadImage(feed)' class="btn btn-primary">Upload Image</a>
+                            <input id='avatarUpload' type='file' file-upload />
+                        </div>
+                    </div>  
+
+                    <div class="form-group" ng-class='{"has-error": editFeed.title.$pristine && editFeed.title.$error.required }'>
+                        <label class="control-label col-sm-3" for="title" >Title</label>
+                        <div class="col-sm-8">
+                            <input name='title' type="text" id="title" class="form-control" placeholder="Title" ng-model='feed.title' required>
+                            <span class="help-block" ng-show="editFeed.$dirty && editFeed.title.$dirty && editFeed.title.$error.required">Please enter a feed title.</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class='{"has-error": editFeed.author.$pristine && editFeed.author.$error.required }'>
+                        <label class="control-label col-sm-3" for="author" >Author</label>
+                        <div class="col-sm-8">
+                            <input name='author' type="text" id="author" class="form-control" placeholder="Author" ng-model='feed.author' required>
+                            <span class="help-block" ng-show="editFeed.$dirty && editFeed.author.$dirty && editFeed.author.$error.required">Please enter the feed's author.</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class='{"has-error": editFeed.url.$pristine && editFeed.url.$error.required }'>
+                        <label class="control-label col-sm-3" for="url">URL</label>
+                        <div class="col-sm-8">
+                            <input name='url' type="text" id="url" class="form-control" placeholder="URL" ng-model='feed.url' required>
+                            <span class="help-block" ng-show="editFeed.$dirty && editFeed.url.$dirty && editFeed.url.$error.required">Please enter the feed's url.</span>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class='{"has-error": editFeed.$dirty && editFeed.feedUrl.$dirty && editFeed.feedUrl.$error.required || editFeed.feedUrl.$error.validFeedUrl }'>
+                        <label class="control-label col-sm-3" for="feedUrl">Feed URL</label>
+                        <div class="col-sm-8">
+                            <input name='feedUrl' type="text" id="feedUrl" class="form-control" placeholder="Feed URL" ng-model='feed.feedUrl' required validate-feed-url>
+                            <span class="help-block" ng-show="editFeed.feedUrl.$pristine && editFeed.feedUrl.$error.validFeedUrl">Please enter a valid RSS feed Url.</span>
+                            <span class="help-block" ng-show="editFeed.$dirty && editFeed.feedUrl.$dirty && editFeed.url.$error.required">Please enter the feed's RSS url.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="storeUrl" >Store URL</label>
+                        <div class="col-sm-8">
+                            <input name='storeUrl' class="form-control" type="text" id="storeUrl" placeholder="Store URL" ng-model='feed.storeUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="portfolioUrl" >Portfolio URL</label>
+                        <div class="col-sm-8">
+                            <input name='portfolioUrl' class="form-control" type="text" id="portfolioUrl" placeholder="Portfolio URL" ng-model='feed.portfolioUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="newsletterSignupUrl" >Newsletter Signup URL</label>
+                        <div class="col-sm-8">
+                            <input name='newsletterSignupUrl' class="form-control" type="text" id="newsletterSignupUrl" placeholder="Newsletter Signup URL" ng-model='feed.newsletterSignupUrl'>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="twitterUrl" >Twitter URL</label>
+                        <div class="col-sm-8">
+                            <input name='twitterUrl' class="form-control" type="text" id="twitterUrl" placeholder="Twitter URL" ng-model='feed.twitterUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="instagramUrl" >Instagram URL</label>
+                        <div class="col-sm-8">
+                            <input name='instagramUrl' class="form-control" type="text" id="instagramUrl" placeholder="Instagram URL" ng-model='feed.instagramUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="facebookUrl" >Facebook URL</label>
+                        <div class="col-sm-8">
+                            <input name='facebookUrl' class="form-control" type="text" id="facebookUrl" placeholder="Facebook URL" ng-model='feed.facebookUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="pinterestUrl" >Pinterest URL</label>
+                        <div class="col-sm-8">
+                            <input name='pinterestUrl' class="form-control" type="text" id="pinterestUrl" placeholder="Pinterest URL" ng-model='feed.pinterestUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="tumblrUrl" >Tumblr URL</label>
+                        <div class="col-sm-8">
+                            <input name='tumblrUrl' class="form-control" type="text" id="tumblrUrl" placeholder="Tumblr URL" ng-model='feed.tumblrUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="flickrUrl" >Flickr URL</label>
+                        <div class="col-sm-8">
+                            <input name='flickrUrl' class="form-control" type="text" id="flickrUrl" placeholder="Flickr URL" ng-model='feed.flickrUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="etsyUrl" >Etsy URL</label>
+                        <div class="col-sm-8">
+                            <input name='etsyUrl' class="form-control" type="text" id="etsyUrl" placeholder="Etsy URL" ng-model='feed.etsyUrl'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="city" >City</label>
+                        <div class="col-sm-8">
+                            <input name='city' class="form-control" type="text" id="city" placeholder="City (e.g. Los Angeles, Stockholm, London)" ng-model='feed.city'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="state" >State</label>
+                        <div class="col-sm-8">
+                            <input name='state' class="form-control" type="text" id="state" placeholder="State (e.g. California, New York)" ng-model='feed.state'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="country" >Country</label>
+                        <div class="col-sm-8">
+                            <input name='country' class="form-control" type="text" id="country" placeholder="Country (e.g. USA, Sweden, Englad)" ng-model='feed.country'>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="description">Description</label>
+                        <div class="col-sm-8">
+                            <textarea name='description' rows="3" id="description" class="form-control" placeholder="Add description here..." ng-model='feed.description'></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="categories">Categories</label>
+                        <div class="col-sm-8">
+                            <label ng-repeat='category in categories' class="checkbox"><input type="checkbox" ng-checked="isSelected(category)" ng-click="updateSelection($event, category)" id="{{ category }}" value="{{ category }}"> {{ category }}</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="categories">Hidden</label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline">
+                                <input ng-model="feed.hidden" ng-value="true" type="radio" name="true">
+                                true&nbsp;
+                            </label>
+                            
+                            <label class="radio-inline">
+                                <input ng-model="feed.hidden" ng-value="false" type="radio" name="false">
+                                false&nbsp;
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                  <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+                  <button type="submit" class="btn btn-primary" ui-validate-form-requirements>Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div id='snapshotsWrapper' pct-column-width='340' pct-column-cutoff='3' pct-scroll-lock>
+	<div ng-repeat="snapshot in snapshots|orderBy:'rank':true" class='snapshot-box-wrapper shadow-dark'>
+		<div class="snapshot-box" ng-mouseover='snapshot.showMenu=true' ng-mouseleave='snapshot.showMenu=false'>
+			<div ng-show='snapshot.showMenu && !scrolling' class='hover-menu-wrapper fade-out'>
+				<!--<div class='hover-menu' ng-class="{'hover-menu-short': feed.opHalfPercentile}">
+					<span>
+						<i class='fa fa-2x' ng-class="{ 'fa-heart-o': !snapshot.liked && !snapshot.likeHover, 'fa-heart': snapshot.liked || snapshot.likeHover }" ng-mouseover='snapshot.likeHover=true' ng-mouseleave='snapshot.likeHover=false' pct-like-snapshot></i><br/>
+						<h5 ng-pluralize count='snapshot.likes' when="{ '0': '0 likes', 'one': '1 like', 'other': '{} likes' }"></h5>
+					</span>
+				</div>-->
+				<ul class='image-sources'>
+					Links in this snapshot:
+					<li ng-repeat='link in snapshot.links' class='white'><span class='black'>{{ ($index+1) + ". " }}</span><a href='{{ link.entryUrl }}' class='yellow-light' target='_blank'>{{ link.entryTitle || 'Link' }}</a></li>
+				</ul>
+			</div>
+			<img pct-image-cloak ng-src='{{ snapshot.large2xThumbnail || snapshot.url }}' />	
+		</div>
+		<div class="snapshot-box-info">
+			<a href='{{ snapshot.feed.url }}' class='light' target='_blank' title='{{ snapshot.feed.title }}'>
+			<span class='snapshot-box-info-title'>{{ snapshot.feed.title }}</span></a>
+			<span class='snapshot-time-ago small thin gray'>{{ snapshot.dateAdded|timeAgo }}</span>
+			<!--<span ng-show='snapshot.likes && !smallDevice' class='small thin snapshot-box-likes'>{{ snapshot.likes + ' ' }}<i class='fa fa-heart'></i></span>-->
+			<a href='/user/{{ snapshot.user.username }}' class='light' target='_blank'><div class='snapshot-user-avatar right'><img ng-src='{{ snapshot.user.avatar }}' class='small-avatar' width='25' height='25' /></div></a>
+		</div>
+	</div>
+</div>

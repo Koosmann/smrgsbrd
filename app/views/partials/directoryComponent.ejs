@@ -1,0 +1,24 @@
+<div >
+	<ul>
+		<li ng-repeat='section in sortedFeeds' class='index-section'>
+			<h1>{{ section.label }}</h1>
+			<ul id='listings'>
+				<li ng-repeat="feed in section.feeds | orderBy:'title'">
+					<div class='directory-image-preview' pct-hover='feed' pct-hover-param='showFeed'>
+						<a href='' ng-href='/feed/{{ feed.id }}' target='_self' class='block-fill'>
+							<div class="feed-profile-image-row" style='height:100px;'>
+						       	<div class='feed-profile-image' ng-repeat='image in feed.imagePreview'>
+							       	<div ng-if='!image.isMultiple && !image.dateMarker && !image.titleMarker' class="feed-profile-image">
+							        	<img ng-src="{{ !imageError && image.smallThumbnail.url || image.url }}" width='auto' height='100' pct-image-error />
+							       	</div>
+							    </div>
+							</div>
+						</a>
+					</div>
+					<span ng-repeat='badge in feed.badges' class='inline-badge-{{ badgeClasses[badge] }}'>{{ badge.substr(0, 3) }}</span>
+					<a href='' ng-href='/feed/{{ feed.id }}' class='thick yellow-light' target='_self'>{{ feed.title }}<span ng-if='feed.newPosts' class='super black'> NEW POSTS!</span></a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>

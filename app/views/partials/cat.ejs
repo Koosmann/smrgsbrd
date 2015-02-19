@@ -1,0 +1,80 @@
+<%= include heade %>
+
+<div class="contaier">
+	<div class='user-profile-content'>
+		<div class="user-profile-sidebar">
+			<div><img ng-src='{{ userPage.avatar }}' width='220' height='220'/></div>
+			<h2 class='user-profile-name'>{{ userPage.firstName }} {{ userPage.lastName }}</h2>
+			<span class='text-detail'>@{{ userPage.username }}</span>
+
+			<br /><br />
+
+			<!--<button ng-click='addFriend(userPage.id)' ng-show='isFollowable'>Follow what {{ userPage.firstName }} is reading</button>
+			<span style="color:Green;" ng-show='isFollowing'>Following <i class='icon-ok'></i></span>-->
+
+			<span class='follow-icon' ng-click='addFriend(userPage.id)' ng-show='isFollowable'><i class='icon-ok'></i></span>
+			<span class='following-icon' ng-show='isFollowing'><i class='icon-ok'></i></span>&nbsp;
+			<span ng-show='isFollowable'>FOLLOW</span>
+			<span ng-show='isFollowing' style='color:blue;'>FOLLOWING</span>
+
+			<br /><br />
+			
+			<h3>FOLLOWING</h3>
+			<div class="top-feeds-container">
+				<span ng-repeat='follow in following' p-href="/user/{{ follow.id }}">
+					<img ng-src='{{ follow.avatar }}' class='user-small-round' title='{{ follow.firstName + " " + follow.lastName }}' />
+				</span>
+			</div><br />
+
+			<h3>FOLLOWERS</h3>
+			<div class="top-feeds-container">
+				<span ng-repeat='follow in followers' p-href="/user/{{ follow.id }}">
+					<img ng-src='{{ follow.avatar }}' class='user-small-round' title='{{ follow.firstName + " " + follow.lastName }}' />
+				</span>
+			</div><br />
+
+			<div>
+				{{ userPage.firstName }} last read: 
+				<br /><br />
+				<img ng-src='{{ recentRead.images[0].url }}' width='220' />
+				<!--<a href='' ng-click='openFeed(recentRead.feed, recentRead)'>{{ recentRead.title }}</a> from <a href='/feed/{{ recentRead.feed.id }}'>{{ recentRead.feed.title }}</a>-->
+			</div>
+		</div>
+		<div class="user-profile-main-content">
+			
+			<h3 style='margin-left:10px;'>TOP FEEDS</h3>
+			
+			<div class="top-feeds-container">
+				<div ng-repeat='topFeed in topFeeds.slice(0, 4)' class='square-feed' p-href="/feed/{{ topFeed.id }}">
+					<img ng-src='{{ topFeed.avatar }}' />
+					<h3>{{ topFeed.title }}</h3>
+				</div>
+			</div>
+
+			<h3 style='margin-left:10px;'>SUBSCRIPTIONS</h3>
+			
+			<div class="top-feeds-container">
+				<table class="table table-hover">
+				    <thead>
+				        <tr>
+				        </tr>
+				    </thead>
+				    <tbody>
+				        <tr ng-repeat="subscription in subscriptions">
+				            <td style='width:50px;' p-href="/feed/{{ subscription.id }}"><img ng-src='{{ subscription.avatar }}' width='50' /></td>
+				            <td class='text-dark' p-href="/feed/{{ subscription.id }}">{{ subscription.title }}</td>
+				            <td class='text-small'><span ng-repeat='category in subscription.categories'><a href='/?categories={{ category|encodeURIComponent }}'>{{ category|uppercase }}</a><span ng-hide='$last'>,&nbsp;</span></span></td>
+				            <td style='width:102px;'><span style='margin-right:4px;' ng-repeat='subscriber in subscription.subscribers.slice(0, 3)'><img ng-src='http://s3-us-west-1.amazonaws.com/pctrly-dev/avatars/users/default.jpg' class='user-small-round' title='{{ subscriber }}' /></span></td>
+				            <td>
+				            	<span class='follow-icon' ng-click='addFeed(subscription)' ng-show='!subscription.isSubscribed'><i class='icon-ok'></i></span>
+								<span class='following-icon' ng-show='subscription.isSubscribed'><i class='icon-ok'></i></span>&nbsp;
+				            </td>
+				        </tr>
+				    </tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<read></read>
